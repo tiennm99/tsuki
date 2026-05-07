@@ -23,3 +23,14 @@ featured:
     repo: https://github.com/tiennm99/vngeoguessr
     image: "img/projects/vngeoguessr.svg"
     tags: [geo, mapillary, redis]
+
+  - title: "tsuki"
+    tagline: "Hugo blog + personal portfolio theme. Vietnamese-first, no build step, View Transitions API."
+    repo: https://github.com/tiennm99/tsuki
+    demo: https://tiennm99.github.io/tsuki/
+    tags: [hugo, theme, vi]
+
+  - title: "penny-pincher"
+    tagline: "Personal expense tracker on Cloudflare D1 + Workers. Telegram-bot-first input, web read-only view."
+    repo: https://github.com/tiennm99/penny-pincher-provider
+    tags: [cloudflare, d1, telegram]
