@@ -1,9 +1,7 @@
 {{ define "body_class" }}home{{ end }}
 
 {{ define "main" }}
-{{/* Phase 4 fills hero/projects/recent-posts here. Placeholder for now. */}}
-<section class="home-placeholder">
-  <h1>{{ site.Title }}</h1>
-  {{- with site.Params.description }}<p>{{ . }}</p>{{ end }}
-</section>
+{{ partial "home/hero.html" . }}
+{{ partial "home/projects.html" . }}
+{{ partial "home/recent-posts.html" . }}
 {{ end }}

@@ -1,0 +1,18 @@
+name: "Tien Nguyen"
+handle: "tiennm99"
+tagline: "Building tools, breaking things, writing it down."
+avatar: "img/avatar.svg"
+bio: |
+  Software engineer based in Ho Chi Minh City. I build for the web,
+  experiment with AI tooling, and write down what I learn.
+
+links:
+  - icon: github
+    label: GitHub
+    url: https://github.com/tiennm99
+  - icon: mail
+    label: Email
+    url: mailto:hi@miti99.com
+  - icon: rss
+    label: RSS
+    url: /index.xml

@@ -1,0 +1,31 @@
+{{- $profile := site.Data.profile -}}
+{{- with $profile -}}
+<section class="home-hero" aria-labelledby="home-hero-name">
+  {{- with .avatar }}
+  <img class="home-hero-avatar" src="{{ . | relURL }}" alt="{{ $profile.name | default site.Title }}" width="120" height="120" loading="eager" decoding="async">
+  {{- end }}
+
+  <h1 id="home-hero-name" class="home-hero-name">{{ .name | default site.Title }}</h1>
+
+  {{- with .tagline }}
+  <p class="home-hero-tagline">{{ . }}</p>
+  {{- end }}
+
+  {{- with .bio }}
+  <div class="home-hero-bio">{{ . | markdownify }}</div>
+  {{- end }}
+
+  {{- with .links }}
+  <ul class="home-hero-links">
+    {{- range . }}
+    <li>
+      <a href="{{ .url }}" rel="me noopener" aria-label="{{ .label | default .icon }}">
+        {{- with .icon }}{{ partial "icon.html" . }}{{ end }}
+        <span>{{ .label | default .icon }}</span>
+      </a>
+    </li>
+    {{- end }}
+  </ul>
+  {{- end }}
+</section>
+{{- end -}}

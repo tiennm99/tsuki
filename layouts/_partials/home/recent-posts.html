@@ -1,0 +1,21 @@
+{{- $count := site.Params.home.recentPostsCount | default 5 -}}
+{{- $posts := first $count (where (where site.RegularPages "Type" "post") "Draft" false) -}}
+{{- with $posts -}}
+<section class="home-recent-posts" aria-labelledby="home-recent-heading">
+  <h2 id="home-recent-heading" class="home-recent-heading">
+    {{ i18n "recentPosts" | default "Recent Posts" }}
+  </h2>
+
+  <ul class="post-list">
+    {{- range . }}
+    <li>{{ partial "post-card.html" . }}</li>
+    {{- end }}
+  </ul>
+
+  {{- if gt (len (where (where site.RegularPages "Type" "post") "Draft" false)) $count }}
+  <p class="home-recent-more">
+    <a href="{{ "/post/" | relURL }}">{{ i18n "viewAll" | default "View all" }} →</a>
+  </p>
+  {{- end }}
+</section>
+{{- end -}}

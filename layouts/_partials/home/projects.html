@@ -1,0 +1,40 @@
+{{- with site.Data.projects.featured -}}
+<section class="home-projects" aria-labelledby="home-projects-heading">
+  <h2 id="home-projects-heading" class="home-projects-heading">
+    {{ i18n "featuredProjects" | default "Featured Projects" }}
+  </h2>
+
+  <ul class="project-grid">
+    {{- range . }}
+    {{- $project := . }}
+    <li class="project-card">
+      {{- with $project.image }}
+      <div class="project-card-image">
+        <img src="{{ . | relURL }}" alt="{{ $project.title }}" loading="lazy" decoding="async">
+      </div>
+      {{- end }}
+
+      <h3 class="project-card-title">{{ $project.title }}</h3>
+      {{- with $project.tagline }}
+      <p class="project-card-tagline">{{ . }}</p>
+      {{- end }}
+
+      {{- with $project.tags }}
+      <ul class="project-card-tags">
+        {{- range . }}<li>{{ . }}</li>{{ end }}
+      </ul>
+      {{- end }}
+
+      <ul class="project-card-links">
+        {{- with $project.repo }}
+        <li><a href="{{ . }}" rel="noopener">repo →</a></li>
+        {{- end }}
+        {{- with $project.demo }}
+        <li><a href="{{ . }}" rel="noopener">demo →</a></li>
+        {{- end }}
+      </ul>
+    </li>
+    {{- end }}
+  </ul>
+</section>
+{{- end -}}

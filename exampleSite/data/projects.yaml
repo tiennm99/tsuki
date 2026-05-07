@@ -1,0 +1,25 @@
+featured:
+  - title: "bonsai"
+    tagline: "Minimalist Hugo theme for link-in-bio. Inspired by Linktree and Japanese bonsai aesthetics."
+    repo: https://github.com/tiennm99/bonsai
+    demo: https://tiennm99.github.io/bonsai/
+    image: "img/projects/bonsai.svg"
+    tags: [hugo, theme, minimal]
+
+  - title: "miti99bot"
+    tagline: "Plug-n-play Telegram bot framework on Cloudflare Workers with grammY."
+    repo: https://github.com/tiennm99/miti99bot
+    image: "img/projects/miti99bot.svg"
+    tags: [telegram, cloudflare, framework]
+
+  - title: "rplace"
+    tagline: "Collaborative pixel art canvas inspired by Reddit r/place. Real-time WebSocket sync."
+    repo: https://github.com/tiennm99/rplace
+    image: "img/projects/rplace.svg"
+    tags: [svelte, hono, durable-objects]
+
+  - title: "vngeoguessr"
+    tagline: "GeoGuessr clone for Vietnamese locations. Mapillary street view + Redis leaderboards."
+    repo: https://github.com/tiennm99/vngeoguessr
+    image: "img/projects/vngeoguessr.svg"
+    tags: [geo, mapillary, redis]
