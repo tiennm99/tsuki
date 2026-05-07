@@ -5,5 +5,29 @@ title: tsuki — example
 themesDir: ../..
 theme: tsuki
 
+pagination:
+  pagerSize: 10
+  path: page
+
+taxonomies:
+  category: categories
+  tag: tags
+
+permalinks:
+  post: /:year/:month/:day/:contentbasename/
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+    parser:
+      autoHeadingIDType: github-ascii
+  highlight:
+    noClasses: false
+    lineNos: false
+  tableOfContents:
+    startLevel: 2
+    endLevel: 4
+
 params:
   description: Example site for the tsuki Hugo theme.

@@ -1,0 +1,6 @@
+{{- $level := .Level -}}
+{{- $id := .Anchor -}}
+<h{{ $level }} id="{{ $id }}">
+  <a class="heading-anchor" href="#{{ $id }}" aria-label="Liên kết đến phần này">#</a>
+  {{ .Text | safeHTML }}
+</h{{ $level }}>

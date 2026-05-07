@@ -9,3 +9,14 @@
     <a href="https://github.com/tiennm99/tsuki" rel="noopener">tsuki</a>
   </p>
 </footer>
+
+{{- $jsFiles := slice
+  (resources.Get "js/theme-toggle.js")
+  (resources.Get "js/code-copy.js")
+-}}
+{{- $js := $jsFiles | resources.Concat "js/tsuki.bundle.js" | js.Build (dict "minify" true) | fingerprint -}}
+<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- if and (eq .Kind "page") (gt .WordCount 400) (ne .Params.toc false) }}
+{{- $tocJs := resources.Get "js/toc-active.js" | js.Build (dict "minify" true) | fingerprint -}}
+<script type="module" src="{{ $tocJs.RelPermalink }}" integrity="{{ $tocJs.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end }}

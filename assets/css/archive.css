@@ -1,0 +1,50 @@
+/* tsuki: archive page — year/month groups */
+
+.archive-year { margin-block-end: var(--tsuki-space-12); }
+.archive-year-heading {
+  font-size: var(--tsuki-fs-2xl);
+  margin: 0 0 var(--tsuki-space-4);
+  padding-block-end: var(--tsuki-space-2);
+  border-block-end: 1px solid var(--tsuki-border);
+  letter-spacing: -0.02em;
+}
+.archive-month {
+  margin-block-end: var(--tsuki-space-6);
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: var(--tsuki-space-4);
+  align-items: start;
+}
+.archive-month-heading {
+  font-size: var(--tsuki-fs-base);
+  margin: 0;
+  color: var(--tsuki-fg-muted);
+  font-weight: 550;
+}
+.archive-post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.archive-post-item {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  gap: var(--tsuki-space-3);
+  padding-block: var(--tsuki-space-2);
+  align-items: baseline;
+}
+.archive-post-date {
+  color: var(--tsuki-fg-subtle);
+  font-size: var(--tsuki-fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+.archive-post-link { color: var(--tsuki-fg); }
+.archive-post-link:hover { color: var(--tsuki-accent); }
+.archive-empty { color: var(--tsuki-fg-muted); }
+
+@media (max-width: 40rem) {
+  .archive-month {
+    grid-template-columns: 1fr;
+    gap: var(--tsuki-space-2);
+  }
+}

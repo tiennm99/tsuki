@@ -1,0 +1,67 @@
+/* tsuki: vi-optimized typography */
+
+body {
+  font-size: var(--tsuki-fs-base);
+  line-height: var(--tsuki-lh-body);
+  font-feature-settings: "kern", "liga", "calt", "ss01";
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: var(--tsuki-lh-tight);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  margin-block: var(--tsuki-space-8) var(--tsuki-space-3);
+}
+
+h1 { font-size: var(--tsuki-fs-3xl); }
+h2 { font-size: var(--tsuki-fs-2xl); }
+h3 { font-size: var(--tsuki-fs-xl); }
+h4 { font-size: var(--tsuki-fs-lg); }
+
+p { margin-block: 0 var(--tsuki-space-4); }
+
+blockquote {
+  margin-inline: 0;
+  padding-inline-start: var(--tsuki-space-4);
+  border-inline-start: 3px solid var(--tsuki-border);
+  color: var(--tsuki-fg-muted);
+  font-style: italic;
+}
+
+code {
+  font-family: var(--tsuki-font-mono);
+  font-size: 0.9em;
+  background: var(--tsuki-code-bg);
+  padding: 0.125em 0.375em;
+  border-radius: var(--tsuki-radius);
+}
+
+pre {
+  font-family: var(--tsuki-font-mono);
+  font-size: var(--tsuki-fs-sm);
+  line-height: 1.55;
+  background: var(--tsuki-code-bg);
+  padding: var(--tsuki-space-4);
+  border-radius: var(--tsuki-radius);
+  overflow-x: auto;
+  position: relative;
+}
+pre code { background: none; padding: 0; font-size: inherit; }
+
+hr {
+  border: none;
+  border-top: 1px solid var(--tsuki-border);
+  margin-block: var(--tsuki-space-12);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block: var(--tsuki-space-6);
+}
+th, td {
+  text-align: start;
+  padding: var(--tsuki-space-2) var(--tsuki-space-3);
+  border-bottom: 1px solid var(--tsuki-border);
+}
+th { font-weight: 600; }

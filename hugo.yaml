@@ -1,20 +1,23 @@
 languageCode: vi
 defaultContentLanguage: vi
 
-paginate: 10
-paginatePath: page
+pagination:
+  pagerSize: 10
+  path: page
 
 taxonomies:
   category: categories
   tag: tags
 
 permalinks:
-  post: /:year/:month/:day/:slug/
+  post: /:year/:month/:day/:contentbasename/
 
 markup:
   goldmark:
     renderer:
       unsafe: true
+    parser:
+      autoHeadingIDType: github-ascii
   highlight:
     noClasses: false
     lineNos: false

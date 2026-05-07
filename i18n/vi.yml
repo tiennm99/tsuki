@@ -40,6 +40,24 @@
 - id: nextPage
   translation: "Trang tiếp"
 
+- id: prev
+  translation: "Trước"
+
+- id: next
+  translation: "Tiếp"
+
+- id: posts
+  translation: "bài"
+
+- id: archiveEmpty
+  translation: "Chưa có bài viết."
+
+- id: toggleTheme
+  translation: "Đổi giao diện"
+
+- id: poweredBy
+  translation: "Chạy bằng"
+
 - id: noResults
   translation: "Không có kết quả."
 

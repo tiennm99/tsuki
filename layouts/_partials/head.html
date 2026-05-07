@@ -63,6 +63,17 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 
-{{/* Theme CSS — placeholder; Phase 6 wires resources.Get */}}
-{{/* {{ $css := resources.Get "css/tsuki.css" | minify | fingerprint }}
-<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}"> */}}
+{{/* Theme CSS — concatenated, minified, fingerprinted (no build step required) */}}
+{{- $cssFiles := slice
+  (resources.Get "css/tokens.css")
+  (resources.Get "css/reset.css")
+  (resources.Get "css/typography.css")
+  (resources.Get "css/layout.css")
+  (resources.Get "css/components.css")
+  (resources.Get "css/home.css")
+  (resources.Get "css/archive.css")
+  (resources.Get "css/toc.css")
+  (resources.Get "css/view-transitions.css")
+-}}
+{{- $css := $cssFiles | resources.Concat "css/tsuki.bundle.css" | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">

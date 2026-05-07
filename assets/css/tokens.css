@@ -1,0 +1,74 @@
+/* tsuki: design tokens — colors, type scale, spacing */
+
+:root {
+  --tsuki-bg: #fbfaf7;
+  --tsuki-fg: #1a1a1a;
+  --tsuki-fg-muted: #666;
+  --tsuki-fg-subtle: #888;
+  --tsuki-border: #e5e3dd;
+  --tsuki-accent: #4a6fa5;
+  --tsuki-accent-hover: #2c4a7a;
+  --tsuki-code-bg: #f1efe9;
+  --tsuki-selection-bg: #d4dff0;
+  --tsuki-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 12px rgb(0 0 0 / 0.04);
+
+  --tsuki-font-sans: "Inter", "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --tsuki-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  --tsuki-font-serif: "Source Serif 4", Georgia, "Iowan Old Style", serif;
+
+  --tsuki-fs-xs: 0.8125rem;
+  --tsuki-fs-sm: 0.9375rem;
+  --tsuki-fs-base: 1rem;
+  --tsuki-fs-lg: 1.125rem;
+  --tsuki-fs-xl: 1.375rem;
+  --tsuki-fs-2xl: 1.75rem;
+  --tsuki-fs-3xl: 2.25rem;
+
+  --tsuki-lh-tight: 1.3;
+  --tsuki-lh-body: 1.7;
+
+  --tsuki-space-1: 0.25rem;
+  --tsuki-space-2: 0.5rem;
+  --tsuki-space-3: 0.75rem;
+  --tsuki-space-4: 1rem;
+  --tsuki-space-6: 1.5rem;
+  --tsuki-space-8: 2rem;
+  --tsuki-space-12: 3rem;
+  --tsuki-space-16: 4rem;
+
+  --tsuki-radius: 0.375rem;
+  --tsuki-radius-lg: 0.625rem;
+
+  --tsuki-content-width: 42rem;
+  --tsuki-wide-width: 64rem;
+
+  --tsuki-transition: 180ms ease;
+}
+
+:where([data-theme="dark"]) {
+  --tsuki-bg: #14151a;
+  --tsuki-fg: #ececec;
+  --tsuki-fg-muted: #a0a0a0;
+  --tsuki-fg-subtle: #777;
+  --tsuki-border: #2a2c33;
+  --tsuki-accent: #8ab0ea;
+  --tsuki-accent-hover: #b1c8f0;
+  --tsuki-code-bg: #1c1e25;
+  --tsuki-selection-bg: #2a3a5a;
+  --tsuki-shadow: 0 1px 2px rgb(0 0 0 / 0.2), 0 4px 12px rgb(0 0 0 / 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  :where(:root:not([data-theme="light"])) {
+    --tsuki-bg: #14151a;
+    --tsuki-fg: #ececec;
+    --tsuki-fg-muted: #a0a0a0;
+    --tsuki-fg-subtle: #777;
+    --tsuki-border: #2a2c33;
+    --tsuki-accent: #8ab0ea;
+    --tsuki-accent-hover: #b1c8f0;
+    --tsuki-code-bg: #1c1e25;
+    --tsuki-selection-bg: #2a3a5a;
+    --tsuki-shadow: 0 1px 2px rgb(0 0 0 / 0.2), 0 4px 12px rgb(0 0 0 / 0.25);
+  }
+}
