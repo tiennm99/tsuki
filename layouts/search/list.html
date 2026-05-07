@@ -1,0 +1,43 @@
+{{ define "body_class" }}search{{ end }}
+
+{{ define "head_extra" }}
+<link rel="stylesheet" href="{{ "/pagefind/pagefind-ui.css" | relURL }}">
+{{ end }}
+
+{{ define "main" }}
+<header class="list-header">
+  <h1 class="list-title">{{ .Title | default (i18n "search") }}</h1>
+  {{- with .Description }}<p class="list-description">{{ . }}</p>{{ end }}
+</header>
+
+<div id="search" class="search-container" data-pagefind-ui></div>
+
+<noscript>
+  <p class="search-noscript">{{ i18n "searchNoScript" | default "Tìm kiếm yêu cầu JavaScript." }}</p>
+</noscript>
+{{ end }}
+
+{{ define "scripts" }}
+<script type="module">
+  import { PagefindUI } from "{{ "/pagefind/pagefind-ui.js" | relURL }}";
+  new PagefindUI({
+    element: "#search",
+    showSubResults: true,
+    showImages: false,
+    resetStyles: false,
+    translations: {
+      placeholder: {{ i18n "searchPlaceholder" | default "Tìm bài viết..." | jsonify }},
+      clear_search: {{ i18n "clearSearch" | default "Xoá" | jsonify }},
+      load_more: {{ i18n "loadMore" | default "Xem thêm" | jsonify }},
+      search_label: {{ i18n "search" | default "Tìm kiếm" | jsonify }},
+      filters_label: {{ i18n "filters" | default "Bộ lọc" | jsonify }},
+      zero_results: {{ i18n "zeroResults" | default "Không có kết quả cho [SEARCH_TERM]" | jsonify }},
+      many_results: {{ i18n "manyResults" | default "[COUNT] kết quả cho [SEARCH_TERM]" | jsonify }},
+      one_result: {{ i18n "oneResult" | default "[COUNT] kết quả cho [SEARCH_TERM]" | jsonify }},
+      alt_search: {{ i18n "altSearch" | default "Không có kết quả cho [SEARCH_TERM]. Đang hiển thị kết quả cho [DIFFERENT_TERM]." | jsonify }},
+      search_suggestion: {{ i18n "searchSuggestion" | default "Không có kết quả cho [SEARCH_TERM]. Thử các từ khoá: [DIFFERENT_TERMS]." | jsonify }},
+      searching: {{ i18n "searching" | default "Đang tìm [SEARCH_TERM]..." | jsonify }}
+    }
+  });
+</script>
+{{ end }}

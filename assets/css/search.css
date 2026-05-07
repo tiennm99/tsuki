@@ -1,0 +1,43 @@
+/* tsuki: search page — Pagefind UI overrides */
+
+.site-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--tsuki-space-2);
+  margin-inline-start: var(--tsuki-space-3);
+}
+
+.search-button {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--tsuki-border);
+  border-radius: 999px;
+  color: var(--tsuki-fg-muted);
+  transition: var(--tsuki-transition);
+}
+.search-button:hover {
+  color: var(--tsuki-fg);
+  border-color: var(--tsuki-fg-muted);
+  text-decoration: none;
+}
+.search-button svg { width: 1rem; height: 1rem; }
+
+.site-nav { margin-inline-start: auto; }
+
+.search-container { margin-block: var(--tsuki-space-6); min-block-size: 6rem; }
+
+/* Pagefind UI tokens — see https://pagefind.app/docs/ui/#styling */
+:root {
+  --pagefind-ui-primary: var(--tsuki-accent);
+  --pagefind-ui-text: var(--tsuki-fg);
+  --pagefind-ui-background: var(--tsuki-bg);
+  --pagefind-ui-border: var(--tsuki-border);
+  --pagefind-ui-tag: var(--tsuki-code-bg);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: var(--tsuki-radius);
+  --pagefind-ui-font: var(--tsuki-font-sans);
+}
+
+.search-noscript { color: var(--tsuki-fg-muted); }

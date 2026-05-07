@@ -20,3 +20,8 @@
 {{- $tocJs := resources.Get "js/toc-active.js" | js.Build (dict "minify" true) | fingerprint -}}
 <script type="module" src="{{ $tocJs.RelPermalink }}" integrity="{{ $tocJs.Data.Integrity }}" crossorigin="anonymous"></script>
 {{- end }}
+{{- $giscus := site.Params.comments.giscus -}}
+{{- if and (eq .Kind "page") $giscus $giscus.enable (ne .Params.comments false) }}
+{{- $giscusJs := resources.Get "js/giscus-theme.js" | js.Build (dict "minify" true) | fingerprint -}}
+<script type="module" src="{{ $giscusJs.RelPermalink }}" integrity="{{ $giscusJs.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end }}

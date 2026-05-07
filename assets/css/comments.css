@@ -1,0 +1,14 @@
+/* tsuki: Giscus comments — reserve space to prevent layout shift on iframe load */
+
+.comments {
+  margin-block-start: var(--tsuki-space-12);
+  padding-block-start: var(--tsuki-space-8);
+  border-block-start: 1px solid var(--tsuki-border);
+}
+.comments-heading {
+  font-size: var(--tsuki-fs-xl);
+  margin: 0 0 var(--tsuki-space-4);
+}
+.giscus,
+.giscus-frame { min-block-size: 12rem; }
+.giscus-frame { width: 100%; border: none; }

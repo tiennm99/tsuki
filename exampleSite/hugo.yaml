@@ -31,3 +31,22 @@ markup:
 
 params:
   description: Example site for the tsuki Hugo theme.
+
+  search:
+    enable: true
+
+  # Giscus comments — uncomment and fill in your repo IDs to enable.
+  # See https://giscus.app to generate values for your repo.
+  # comments:
+  #   giscus:
+  #     enable: true
+  #     repo: tiennm99/tsuki
+  #     repoId: R_kgDO...
+  #     category: Announcements
+  #     categoryId: DIC_kwDO...
+  #     mapping: pathname        # pathname | url | title | og:title
+  #     strict: "0"
+  #     reactionsEnabled: "1"
+  #     inputPosition: bottom    # top | bottom
+  #     theme: preferred_color_scheme
+  #     lang: vi

@@ -61,5 +61,29 @@
 - id: noResults
   translation: "Không có kết quả."
 
+- id: searchNoScript
+  translation: "Tìm kiếm yêu cầu JavaScript."
+
+- id: clearSearch
+  translation: "Xoá"
+
+- id: loadMore
+  translation: "Xem thêm"
+
+- id: filters
+  translation: "Bộ lọc"
+
+- id: zeroResults
+  translation: "Không có kết quả cho [SEARCH_TERM]"
+
+- id: manyResults
+  translation: "[COUNT] kết quả cho [SEARCH_TERM]"
+
+- id: oneResult
+  translation: "[COUNT] kết quả cho [SEARCH_TERM]"
+
+- id: searching
+  translation: "Đang tìm [SEARCH_TERM]..."
+
 - id: copyright
   translation: "© {{ .Year }} {{ .Author }}"
