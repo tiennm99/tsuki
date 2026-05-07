@@ -1,0 +1,9 @@
+<header class="site-header">
+  <a class="site-title" href="{{ "/" | relURL }}">
+    {{- with site.Params.profile.name }}{{ . }}{{ else }}{{ site.Title }}{{ end -}}
+  </a>
+  {{ partial "nav.html" . }}
+  <button type="button" class="theme-toggle" aria-label="{{ i18n "toggleTheme" | default "Toggle theme" }}" data-theme-toggle hidden>
+    <span aria-hidden="true">◐</span>
+  </button>
+</header>

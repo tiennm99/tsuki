@@ -1,0 +1,11 @@
+<footer class="site-footer">
+  <p class="copyright">
+    © {{ now.Year }}
+    {{- with site.Params.profile.name }} {{ . }}{{ else }} {{ site.Title }}{{ end }}.
+  </p>
+  <p class="powered-by">
+    <span>{{ i18n "poweredBy" | default "Powered by" }}</span>
+    <a href="https://gohugo.io" rel="noopener">Hugo</a> +
+    <a href="https://github.com/tiennm99/tsuki" rel="noopener">tsuki</a>
+  </p>
+</footer>

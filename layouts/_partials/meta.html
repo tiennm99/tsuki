@@ -1,0 +1,20 @@
+<div class="post-meta">
+  {{- with .Date }}
+  <time datetime="{{ .Format "2006-01-02" }}" class="post-date">
+    {{ . | time.Format ":date_long" }}
+  </time>
+  {{- end }}
+  {{- if gt .ReadingTime 0 }}
+  <span class="reading-time">
+    {{ i18n "readingTime" (dict "Count" .ReadingTime) | default (printf "%d min" .ReadingTime) }}
+  </span>
+  {{- end }}
+  {{- with .Params.tags }}
+  <span class="post-tags">
+    {{- range $i, $tag := . -}}
+    {{- if $i }}, {{ end -}}
+    <a href="{{ printf "/tags/%s/" (urlize $tag) | relURL }}">#{{ $tag }}</a>
+    {{- end -}}
+  </span>
+  {{- end }}
+</div>

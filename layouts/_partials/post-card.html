@@ -1,0 +1,14 @@
+{{- $page := . -}}
+<article class="post-card">
+  <h3 class="post-card-title">
+    <a href="{{ $page.RelPermalink }}">{{ $page.Title }}</a>
+  </h3>
+  {{- with $page.Date }}
+  <time datetime="{{ .Format "2006-01-02" }}" class="post-card-date">
+    {{ . | time.Format ":date_medium" }}
+  </time>
+  {{- end }}
+  {{- with ($page.Summary | plainify) }}
+  <p class="post-card-summary">{{ . | truncate 180 }}</p>
+  {{- end }}
+</article>
