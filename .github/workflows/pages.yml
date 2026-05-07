@@ -45,7 +45,12 @@ jobs:
         run: hugo --gc --minify --baseURL "https://tiennm99.github.io/tsuki/"
 
       - name: Build Pagefind index
-        run: npx pagefind --site exampleSite/public
+        run: |
+          if find exampleSite/public -name "*.html" -type f | head -1 | grep -q .; then
+            npx pagefind --site exampleSite/public
+          else
+            echo "No HTML files found yet (layouts not implemented). Skipping Pagefind."
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
