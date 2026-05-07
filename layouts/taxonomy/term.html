@@ -1,0 +1,18 @@
+{{ define "body_class" }}list term-list{{ end }}
+
+{{ define "main" }}
+<header class="list-header">
+  <h1 class="list-title">
+    <span class="term-prefix" aria-hidden="true">#</span>{{ .Title }}
+  </h1>
+  {{- with .Description }}<p class="list-description">{{ . }}</p>{{ end }}
+</header>
+
+<div class="post-list">
+  {{- range .Paginator.Pages }}
+    {{ partial "post-card.html" . }}
+  {{- end }}
+</div>
+
+{{ partial "pagination.html" . }}
+{{ end }}

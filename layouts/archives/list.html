@@ -1,0 +1,17 @@
+{{ define "body_class" }}list archive{{ end }}
+
+{{ define "main" }}
+<header class="list-header">
+  <h1 class="list-title">{{ .Title }}</h1>
+  {{- with .Description }}<p class="list-description">{{ . }}</p>{{ end }}
+</header>
+
+<div class="archive">
+  {{- $posts := where site.RegularPages "Section" "post" }}
+  {{- range $posts.GroupByDate "2006" }}
+    {{ partial "archive-group.html" . }}
+  {{- else }}
+  <p class="archive-empty">{{ i18n "archiveEmpty" | default "Chưa có bài viết." }}</p>
+  {{- end }}
+</div>
+{{ end }}

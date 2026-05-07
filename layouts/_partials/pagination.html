@@ -1,0 +1,26 @@
+{{- $p := .Paginator -}}
+{{- if gt $p.TotalPages 1 -}}
+<nav class="pagination" aria-label="Pagination">
+  {{- if $p.HasPrev }}
+  <a class="pagination-prev" rel="prev" href="{{ $p.Prev.URL }}">‹ {{ i18n "prev" | default "Trước" }}</a>
+  {{- else }}
+  <span class="pagination-prev disabled" aria-disabled="true">‹ {{ i18n "prev" | default "Trước" }}</span>
+  {{- end }}
+
+  <ol class="pagination-pages">
+    {{- range $p.Pagers }}
+      {{- if eq . $p }}
+    <li><span class="pagination-current" aria-current="page">{{ .PageNumber }}</span></li>
+      {{- else }}
+    <li><a href="{{ .URL }}">{{ .PageNumber }}</a></li>
+      {{- end }}
+    {{- end }}
+  </ol>
+
+  {{- if $p.HasNext }}
+  <a class="pagination-next" rel="next" href="{{ $p.Next.URL }}">{{ i18n "next" | default "Tiếp" }} ›</a>
+  {{- else }}
+  <span class="pagination-next disabled" aria-disabled="true">{{ i18n "next" | default "Tiếp" }} ›</span>
+  {{- end }}
+</nav>
+{{- end -}}

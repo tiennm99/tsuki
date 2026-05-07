@@ -1,0 +1,19 @@
+{{ define "body_class" }}list taxonomy-list{{ end }}
+
+{{ define "main" }}
+<header class="list-header">
+  <h1 class="list-title">{{ .Title }}</h1>
+  {{- with .Description }}<p class="list-description">{{ . }}</p>{{ end }}
+</header>
+
+<ul class="terms-list">
+  {{- range .Pages.ByTitle }}
+  <li class="term-item">
+    <a class="term-link" href="{{ .RelPermalink }}">
+      <span class="term-name">{{ .Title }}</span>
+      <span class="term-count" aria-label="{{ len .Pages }} {{ i18n "posts" | default "bài" }}">{{ len .Pages }}</span>
+    </a>
+  </li>
+  {{- end }}
+</ul>
+{{ end }}

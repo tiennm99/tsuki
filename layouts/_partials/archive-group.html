@@ -1,0 +1,17 @@
+{{- $year := . -}}
+<section class="archive-year">
+  <h2 class="archive-year-heading">{{ $year.Key }}</h2>
+  {{- range $year.Pages.GroupByDate "1" }}
+  <section class="archive-month">
+    <h3 class="archive-month-heading">{{ i18n "month" (dict "Number" .Key) | default (printf "Tháng %s" .Key) }}</h3>
+    <ul class="archive-post-list">
+      {{- range .Pages }}
+      <li class="archive-post-item">
+        <time datetime="{{ .Date.Format "2006-01-02" }}" class="archive-post-date">{{ .Date.Format "02/01" }}</time>
+        <a class="archive-post-link" href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+</section>
