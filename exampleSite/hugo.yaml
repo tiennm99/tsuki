@@ -1,0 +1,9 @@
+baseURL: https://tiennm99.github.io/tsuki/
+languageCode: vi
+defaultContentLanguage: vi
+title: tsuki — example
+themesDir: ../..
+theme: tsuki
+
+params:
+  description: Example site for the tsuki Hugo theme.

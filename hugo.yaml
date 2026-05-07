@@ -1,0 +1,33 @@
+languageCode: vi
+defaultContentLanguage: vi
+
+paginate: 10
+paginatePath: page
+
+taxonomies:
+  category: categories
+  tag: tags
+
+permalinks:
+  post: /:year/:month/:day/:slug/
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+    lineNos: false
+  tableOfContents:
+    startLevel: 2
+    endLevel: 4
+
+params:
+  search:
+    enable: true
+  comments:
+    giscus:
+      enable: false
+  toc:
+    enable: true
+    minWordCount: 400

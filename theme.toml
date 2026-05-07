@@ -1,0 +1,18 @@
+name = "tsuki"
+license = "Apache-2.0"
+licenselink = "https://github.com/tiennm99/tsuki/blob/main/LICENSE"
+description = "月 — Hugo blog + personal portfolio theme. Vietnamese-first typography, View Transitions API, Pagefind search, Giscus comments. Companion to bonsai."
+homepage = "https://github.com/tiennm99/tsuki"
+demosite = "https://tiennm99.github.io/tsuki/"
+tags = ["blog", "portfolio", "personal", "minimal", "dark", "vietnamese", "pagefind", "view-transitions"]
+features = ["blog", "portfolio", "search", "comments", "dark-mode", "responsive", "i18n", "rss"]
+min_version = "0.146.0"
+
+[author]
+  name = "Tien Nguyen"
+  homepage = "https://miti99.com"
+
+[original]
+  author = ""
+  homepage = ""
+  repo = ""

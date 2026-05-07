@@ -1,0 +1,14 @@
+{
+  "name": "tsuki",
+  "version": "0.1.0",
+  "description": "tsuki — Hugo blog + personal portfolio theme",
+  "license": "Apache-2.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tiennm99/tsuki.git"
+  },
+  "devDependencies": {
+    "pagefind": "^1.4.0"
+  }
+}

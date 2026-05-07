@@ -1,0 +1,47 @@
+- id: readingTime
+  translation: "{{ .Count }} phút đọc"
+
+- id: postedOn
+  translation: "Đăng vào"
+
+- id: updatedOn
+  translation: "Cập nhật"
+
+- id: tags
+  translation: "Thẻ"
+
+- id: categories
+  translation: "Chuyên mục"
+
+- id: archive
+  translation: "Lưu trữ"
+
+- id: search
+  translation: "Tìm kiếm"
+
+- id: searchPlaceholder
+  translation: "Tìm bài viết..."
+
+- id: recentPosts
+  translation: "Bài viết gần đây"
+
+- id: featuredProjects
+  translation: "Dự án nổi bật"
+
+- id: viewAll
+  translation: "Xem tất cả"
+
+- id: tableOfContents
+  translation: "Mục lục"
+
+- id: previousPage
+  translation: "Trang trước"
+
+- id: nextPage
+  translation: "Trang tiếp"
+
+- id: noResults
+  translation: "Không có kết quả."
+
+- id: copyright
+  translation: "© {{ .Year }} {{ .Author }}"
