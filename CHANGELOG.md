@@ -2,6 +2,71 @@
 
 All notable changes to tsuki will be documented here. Format follows [Keep a Changelog](https://keepachangelog.com/), versioning follows [SemVer](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- **CI smoke tests** (`scripts/smoke-tests.sh`) run after Hugo build — assert JSON-LD on post / not on home, OG/Twitter image emit, skip-link + `<main id="main">`, render-link rel marker, reading-time byline, related-posts aside, CSS budget. 11 checks, fails the workflow on regression. Local-runnable: `./scripts/smoke-tests.sh`.
+- **htmltest** (`.htmltest.yml` + GitHub Action) runs after smoke tests — catches broken internal links, missing alt attributes, malformed HTML5 in the demo build. External link checking disabled (network flake).
+- **CSS budget badge** in README.
+- **Hugo Module mounts** declared in `hugo.yaml` — explicit `module.mounts` list ensures the theme works under Hugo Module consumption with custom site `assetDir`/`layoutDir` overrides.
+- **`docs/installation.md`** — single source for submodule + Hugo Module install, Pagefind setup quirks under each, required site-config minimum, post-install verification checklist. README's install section now links here.
+- **Related posts** under every single post — `_partials/related-posts.html` uses Hugo's built-in `.Related` index keyed by tags + categories + date, weighted 100/60/10. Section silently disappears when no relations exist. Default 3 cards; tune via `params.relatedPostsCount`. Reuses the existing `post-card.html` partial. Requires `related:` config in site `hugo.yaml` (Hugo no-deep-merge rule); documented in `docs/config.md`.
+- **`relatedPosts` i18n key** (`Bài viết liên quan`).
+- **Markdown callouts** — `> [!note]`, `> [!tip]`, `> [!important]`, `> [!warning]`, `> [!caution]` render as styled callouts via `_markup/render-blockquote.html`. Five color tokens, light + dark mode tuned. Plain blockquotes pass through unchanged. Titles localize through new `i18n/vi.yml` keys (`calloutNote` etc.); override per-callout with `> [!note] Custom title`. CSS lives in dedicated `assets/css/callouts.css` bundled into the main pipeline.
+- **`assets/css/callouts.css`** — added to the concat order in `head.html`.
+- **Optional word-count byline** — gated on `params.showWordCount: true` (default off). New `wordCount` i18n key (`{{ .Count }} từ`).
+- **Archetype expansion** — `archetypes/default.md` now includes `description`, `cover.image`, and pre-populated `tags`/`categories` placeholders.
+- **JSON-LD Article schema** on every post page — `headline`, `datePublished`, `dateModified`, `author` (Person), `publisher` (Organization), `image`, `description`, `keywords`. Emits only when `IsPage && Kind == "page"`; passes `validator.schema.org` for the demo posts.
+- **OG/Twitter improvements** — `og:locale` from site language, `article:author`, one `article:tag` per post tag, `twitter:site` + `twitter:creator` from new `params.social.twitter`, OG/Twitter description capped at 200 chars (Twitter limit) via rune-safe `truncate`.
+- **`_partials/head/seo.html`** + **`_partials/head/og-image.html`** — extracted from `head.html` for cleaner per-site overrides; OG image resolves through `cover.image` → `image` → `params.og.fallbackImage` → `params.profile.avatar`.
+- **`params.author`, `params.social.twitter`, `params.og.fallbackImage`** documented in `docs/config.md`.
+- **`cover.image` per-post frontmatter** as the preferred OG/Twitter cover key (legacy `image` still works).
+- **Skip-link** — first focusable element on every page; jumps to `<main id="main">` (a11y M3).
+- **Visible focus rings** — `:focus-visible { outline: 2px solid var(--tsuki-accent) }` site-wide; previously relied on browser defaults that disappeared in dark mode (a11y M3).
+- **`Lastmod` byline** — post meta shows "Cập nhật {date}" when modified date is at least 24 h newer than publish date (audit M2).
+- **`_markup/render-link.html`** — external markdown links automatically get `rel="noopener noreferrer"` (audit N1).
+- **`_markup/render-image.html`** — in-content markdown images automatically get `loading="lazy" decoding="async"` (audit N2).
+- **`skipToContent` i18n key.**
+- **Theme-contract notes** in `docs/config.md` documenting taxonomy plural names, Vi tag title bundles, and the full effect of `params.search.enable: false` (forward-looking concerns from the v0.1.1 review).
+
+### Fixed
+
+- **Site title in header + copyright in footer now read from `data/profile.yaml: name`** (previously read from non-existent `params.profile.name`, silently falling back to `site.Title`). Sites with `data/profile.yaml: name` set will see the correct name appear in `<header>` and footer for the first time.
+
+### Changed
+
+- **`<meta name="generator">`** no longer leaks Hugo version — emits `tsuki` only (audit N5).
+- **Giscus iframe theme sync** posts the current theme as soon as the iframe is ready, eliminating the brief flash to the default theme on first paint (audit L5).
+- **Categories are explicitly routing-only** — `categories` taxonomy still routes under `/categories/<slug>/` but does not surface in post meta. Documented inline in `meta.html`.
+
+### Removed
+
+- **`view-transition-name: var(--tsuki-vt-name, none)`** on `.project-card` — dead declaration; nothing set the variable. Removed pending a future card-morph implementation (audit M4).
+- **Empty `[original]` block** dropped from `theme.toml` — tsuki is an original theme, not a fork; the empty fields tripped the Hugo theme registry's malformed-frontmatter check (audit L1).
+
+## [0.1.1] — 2026-05-08
+
+Patch release. Audit fixes and documentation/code drift. No new features.
+
+### Fixed
+
+- **TOC config now honors `params.toc.{enable,minWordCount}`** — previously `single.html` and `footer.html` hardcoded a 400-word threshold and ignored the `enable` flag (audit C1).
+- **Tag URLs survive taxonomy renames** — `meta.html` and `single.html` now use `.GetTerms "tags"` + `RelPermalink` instead of hardcoded `/tags/...` (audit C3).
+- **`params.search.enable: false` removes the route**, not just the header button. `search/list.html` is now gated; disabled sites get a localized fallback message (audit H2).
+- **Home page no longer emits dead `<link rel=prev/next>`** to non-existent paginated URLs. Pagination links emit only on paginated kinds with `>1` page (audit H4).
+- **Code-copy buttons hidden when `navigator.clipboard` unavailable** (HTTP non-localhost) — no orphan "Lỗi" buttons on insecure-origin previews (audit H5).
+- **`recent-posts.html` query bound once** instead of evaluated twice (audit H8). `Draft` filter dropped (already excluded by `RegularPages`).
+- **Seven i18n keys added** to `vi.yml`: six audit-flagged keys (`comments`, `month`, `pageNotFound`, `backHome`, `searchSuggestion`, `altSearch`) plus `searchDisabled` for the new search-disabled fallback (audit H1).
+
+### Changed
+
+- **CI asserts CSS budget ≤ 4200 B gz** on every push. Build fails if the fingerprinted bundle grows beyond the documented limit (audit H3).
+- **Removed unused `previousPage`/`nextPage` i18n keys.** Pagination has always used `prev`/`next`.
+- **`docs/data-schemas.md`** documents the security implication of `markup.goldmark.renderer.unsafe: true` + `markdownify` on `profile.bio`. Treat `data/profile.yaml` as trusted-author input (audit C2 — documentation path).
+
+[0.1.1]: https://github.com/tiennm99/tsuki/releases/tag/v0.1.1
+
 ## [0.1.0] — 2026-05-07
 
 Initial public release.
@@ -36,3 +101,5 @@ Initial public release.
 - Image gallery shortcode
 
 [0.1.0]: https://github.com/tiennm99/tsuki/releases/tag/v0.1.0
+
+
