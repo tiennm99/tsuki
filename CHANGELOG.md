@@ -4,6 +4,15 @@ All notable changes to tsuki will be documented here. Format follows [Keep a Cha
 
 ## [Unreleased]
 
+### Changed
+
+- **TOC gate consolidated** to `_partials/toc-enabled.html` — single source for the `params.toc.{enable,minWordCount}` + per-page `toc: false` predicate, called from `single.html` (TOC partial) and `_partials/footer.html` (toc-active.js loader). Was duplicated 6-line logic in two sites; now one partial. No behavior change.
+- **`_partials/head/og-image.html` inlined into `head/seo.html`** — single-call partial removed; the OG image fallback chain (`cover.image` → `image` → `params.og.fallbackImage` → `data/profile.yaml: avatar`) is now expressed once at the top of `seo.html`. Override surface unchanged: replace `head/seo.html` to customize.
+
+### Removed
+
+- **Six unused i18n keys** — `postedOn`, `tags`, `categories`, `archive`, `noResults`, `copyright` were defined in `vi.yml` but never referenced by any template. Dropped along with one accidental duplicate of the callout title block. `vi.yml` reorganized into thematic groups (search/feeds/UI/callouts).
+
 ### Added
 
 - **CI smoke tests** (`scripts/smoke-tests.sh`) run after Hugo build — assert JSON-LD on post / not on home, OG/Twitter image emit, skip-link + `<main id="main">`, render-link rel marker, reading-time byline, related-posts aside, CSS budget. 11 checks, fails the workflow on regression. Local-runnable: `./scripts/smoke-tests.sh`.

@@ -4,35 +4,8 @@
 - id: wordCount
   translation: "{{ .Count }} từ"
 
-- id: calloutNote
-  translation: "Ghi chú"
-
-- id: calloutTip
-  translation: "Mẹo"
-
-- id: calloutImportant
-  translation: "Quan trọng"
-
-- id: calloutWarning
-  translation: "Cảnh báo"
-
-- id: calloutCaution
-  translation: "Thận trọng"
-
-- id: postedOn
-  translation: "Đăng vào"
-
 - id: updatedOn
   translation: "Cập nhật"
-
-- id: tags
-  translation: "Thẻ"
-
-- id: categories
-  translation: "Chuyên mục"
-
-- id: archive
-  translation: "Lưu trữ"
 
 - id: search
   translation: "Tìm kiếm"
@@ -40,8 +13,44 @@
 - id: searchPlaceholder
   translation: "Tìm bài viết..."
 
+- id: searchNoScript
+  translation: "Tìm kiếm yêu cầu JavaScript."
+
+- id: searchDisabled
+  translation: "Tìm kiếm hiện không khả dụng trên trang này."
+
+- id: clearSearch
+  translation: "Xoá"
+
+- id: loadMore
+  translation: "Xem thêm"
+
+- id: filters
+  translation: "Bộ lọc"
+
+- id: zeroResults
+  translation: "Không có kết quả cho [SEARCH_TERM]"
+
+- id: oneResult
+  translation: "[COUNT] kết quả cho [SEARCH_TERM]"
+
+- id: manyResults
+  translation: "[COUNT] kết quả cho [SEARCH_TERM]"
+
+- id: searching
+  translation: "Đang tìm [SEARCH_TERM]..."
+
+- id: searchSuggestion
+  translation: "Không có kết quả cho [SEARCH_TERM]. Thử các từ khoá: [DIFFERENT_TERMS]."
+
+- id: altSearch
+  translation: "Không có kết quả cho [SEARCH_TERM]. Đang hiển thị kết quả cho [DIFFERENT_TERM]."
+
 - id: recentPosts
   translation: "Bài viết gần đây"
+
+- id: relatedPosts
+  translation: "Bài viết liên quan"
 
 - id: featuredProjects
   translation: "Dự án nổi bật"
@@ -64,47 +73,20 @@
 - id: archiveEmpty
   translation: "Chưa có bài viết."
 
-- id: toggleTheme
-  translation: "Đổi giao diện"
-
-- id: poweredBy
-  translation: "Chạy bằng"
-
-- id: noResults
-  translation: "Không có kết quả."
-
-- id: searchNoScript
-  translation: "Tìm kiếm yêu cầu JavaScript."
-
-- id: clearSearch
-  translation: "Xoá"
-
-- id: loadMore
-  translation: "Xem thêm"
-
-- id: filters
-  translation: "Bộ lọc"
-
-- id: zeroResults
-  translation: "Không có kết quả cho [SEARCH_TERM]"
-
-- id: manyResults
-  translation: "[COUNT] kết quả cho [SEARCH_TERM]"
-
-- id: oneResult
-  translation: "[COUNT] kết quả cho [SEARCH_TERM]"
-
-- id: searching
-  translation: "Đang tìm [SEARCH_TERM]..."
-
-- id: copyright
-  translation: "© {{ .Year }} {{ .Author }}"
+- id: month
+  translation: "Tháng {{ .Number }}"
 
 - id: comments
   translation: "Bình luận"
 
-- id: month
-  translation: "Tháng {{ .Number }}"
+- id: toggleTheme
+  translation: "Đổi giao diện"
+
+- id: skipToContent
+  translation: "Đến nội dung chính"
+
+- id: poweredBy
+  translation: "Chạy bằng"
 
 - id: pageNotFound
   translation: "Trang không tồn tại."
@@ -112,17 +94,17 @@
 - id: backHome
   translation: "Về trang chủ"
 
-- id: searchSuggestion
-  translation: "Không có kết quả cho [SEARCH_TERM]. Thử các từ khoá: [DIFFERENT_TERMS]."
+- id: calloutNote
+  translation: "Ghi chú"
 
-- id: altSearch
-  translation: "Không có kết quả cho [SEARCH_TERM]. Đang hiển thị kết quả cho [DIFFERENT_TERM]."
+- id: calloutTip
+  translation: "Mẹo"
 
-- id: searchDisabled
-  translation: "Tìm kiếm hiện không khả dụng trên trang này."
+- id: calloutImportant
+  translation: "Quan trọng"
 
-- id: skipToContent
-  translation: "Đến nội dung chính"
+- id: calloutWarning
+  translation: "Cảnh báo"
 
-- id: relatedPosts
-  translation: "Bài viết liên quan"
+- id: calloutCaution
+  translation: "Thận trọng"

@@ -1,0 +1,13 @@
+{{- /*
+  Single source of truth for whether to render the TOC for the current page.
+  Returns the literal string "true" when enabled, empty otherwise.
+  Callers: `single.html` (TOC partial), `footer.html` (toc-active.js loader).
+  Site config: `params.toc.enable` (default true), `params.toc.minWordCount` (default 400).
+  Per-page override: frontmatter `toc: false` always wins.
+*/ -}}
+{{- $cfg := site.Params.toc | default dict -}}
+{{- $enabled := $cfg.enable | default true -}}
+{{- $min := $cfg.minWordCount | default 400 -}}
+{{- if and $enabled (eq .Kind "page") (gt .WordCount $min) (ne .Params.toc false) -}}
+true
+{{- end -}}

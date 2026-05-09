@@ -16,10 +16,7 @@
 -}}
 {{- $js := $jsFiles | resources.Concat "js/tsuki.bundle.js" | js.Build (dict "minify" true) | fingerprint -}}
 <script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
-{{- $tocCfg := site.Params.toc | default dict -}}
-{{- $tocEnabled := $tocCfg.enable | default true -}}
-{{- $tocMin := $tocCfg.minWordCount | default 400 -}}
-{{- if and (eq .Kind "page") $tocEnabled (gt .WordCount $tocMin) (ne .Params.toc false) }}
+{{- if partial "toc-enabled.html" . }}
 {{- $tocJs := resources.Get "js/toc-active.js" | js.Build (dict "minify" true) | fingerprint -}}
 <script type="module" src="{{ $tocJs.RelPermalink }}" integrity="{{ $tocJs.Data.Integrity }}" crossorigin="anonymous"></script>
 {{- end }}

@@ -7,7 +7,12 @@
 {{- $rawDesc := .Description | default .Summary | default site.Params.description -}}
 {{- $desc := "" -}}
 {{- with $rawDesc -}}{{- $desc = . | plainify | truncate 200 -}}{{- end -}}
-{{- $img := partial "head/og-image.html" . -}}
+{{- /* OG/Twitter image: per-post `cover.image` → per-post `image` → site `og.fallbackImage` → `data/profile.yaml: avatar`. */ -}}
+{{- $img := "" -}}
+{{- with .Params.cover -}}{{- $img = .image -}}{{- end -}}
+{{- if not $img -}}{{- $img = .Params.image -}}{{- end -}}
+{{- if not $img -}}{{- $img = site.Params.og.fallbackImage -}}{{- end -}}
+{{- if not $img -}}{{- with site.Data.profile -}}{{- $img = .avatar -}}{{- end -}}{{- end -}}
 
 {{- /* OG locale: map common Hugo lang codes to OpenGraph IETF-with-region. */ -}}
 {{- $ogLocale := site.Params.og.locale | default (index (dict "vi" "vi_VN" "en" "en_US" "ja" "ja_JP" "zh" "zh_CN" "ko" "ko_KR" "fr" "fr_FR" "de" "de_DE") site.Language.Lang) | default site.LanguageCode -}}

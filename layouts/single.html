@@ -25,10 +25,7 @@
   </footer>
 </article>
 
-{{- $tocCfg := site.Params.toc | default dict -}}
-{{- $tocEnabled := $tocCfg.enable | default true -}}
-{{- $tocMin := $tocCfg.minWordCount | default 400 -}}
-{{- if and $tocEnabled (gt .WordCount $tocMin) (ne .Params.toc false) }}
+{{- if partial "toc-enabled.html" . }}
 {{ partial "toc.html" . }}
 {{- end }}
 
