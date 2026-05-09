@@ -1,0 +1,5 @@
+{{- /* In-content images get loading="lazy" + decoding="async" by default. */ -}}
+<img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" loading="lazy" decoding="async"
+  {{- with .Title }} title="{{ . }}"{{ end -}}
+>
+{{- /**/ -}}

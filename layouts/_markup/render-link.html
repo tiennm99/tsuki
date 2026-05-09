@@ -1,0 +1,11 @@
+{{- /* External markdown links get rel="noopener noreferrer". No target="_blank" — UX choice. */ -}}
+{{- $external := or
+  (strings.HasPrefix .Destination "http://")
+  (strings.HasPrefix .Destination "https://")
+  (strings.HasPrefix .Destination "//")
+-}}
+<a href="{{ .Destination | safeURL }}"
+  {{- with .Title }} title="{{ . }}"{{ end -}}
+  {{- if $external }} rel="noopener noreferrer"{{ end -}}
+>{{ .Text | safeHTML }}</a>
+{{- /**/ -}}

@@ -1,6 +1,6 @@
 <header class="site-header">
   <a class="site-title" href="{{ "/" | relURL }}">
-    {{- with site.Params.profile.name }}{{ . }}{{ else }}{{ site.Title }}{{ end -}}
+    {{- with site.Data.profile }}{{ .name | default site.Title }}{{ else }}{{ site.Title }}{{ end -}}
   </a>
   {{ partial "nav.html" . }}
   <div class="site-header-actions">

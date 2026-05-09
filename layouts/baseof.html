@@ -5,8 +5,9 @@
   {{ block "head_extra" . }}{{ end }}
 </head>
 <body class="{{ block "body_class" . }}{{ end }}">
+  <a class="skip-link" href="#main">{{ i18n "skipToContent" | default "Đến nội dung chính" }}</a>
   {{ partial "header.html" . }}
-  <main>
+  <main id="main">
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}

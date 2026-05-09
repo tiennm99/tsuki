@@ -79,7 +79,6 @@
   border: 1px solid var(--tsuki-border);
   border-radius: var(--tsuki-radius-lg);
   transition: var(--tsuki-transition);
-  view-transition-name: var(--tsuki-vt-name, none);
 }
 .project-card:hover {
   border-color: var(--tsuki-accent);
