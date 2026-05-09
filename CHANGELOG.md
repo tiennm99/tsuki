@@ -4,6 +4,10 @@ All notable changes to tsuki will be documented here. Format follows [Keep a Cha
 
 ## [Unreleased]
 
+### Fixed
+
+- **CI htmltest URLSwap** — `.htmltest.yml` now strips the `/tsuki/` baseURL prefix so internal-link checks resolve against `exampleSite/public/`. Was failing on every CI run since v0.2.0; deploys did not propagate until this fix. No theme-side change.
+
 ## [0.2.1] — 2026-05-10
 
 Patch release. Closes 5 P1 correctness/security findings from the post-v0.2.0 review plus 2 CI hygiene items. No new features.

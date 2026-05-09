@@ -4,6 +4,9 @@ IgnoreDirectoryMissingTrailingSlash: true
 IgnoreInternalEmptyHash: true
 IgnoreEmptyHref: false
 EnforceHTML5: true
+# Strip the /tsuki/ baseURL prefix so links resolve against exampleSite/public/.
+URLSwap:
+  ^/tsuki/: /
 IgnoreURLs:
   - "^https://giscus.app"
   - "^https://github.com/"
