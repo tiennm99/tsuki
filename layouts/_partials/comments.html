@@ -1,5 +1,5 @@
 {{- $g := site.Params.comments.giscus -}}
-{{- if and $g $g.enable -}}
+{{- if and $g $g.enable $g.repo $g.repoId $g.categoryId -}}
 {{- if ne .Params.comments false -}}
 <section class="comments" aria-labelledby="comments-heading">
   <h2 id="comments-heading" class="comments-heading">{{ i18n "comments" | default "Bình luận" }}</h2>

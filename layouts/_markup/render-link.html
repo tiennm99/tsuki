@@ -7,5 +7,5 @@
 <a href="{{ .Destination | safeURL }}"
   {{- with .Title }} title="{{ . }}"{{ end -}}
   {{- if $external }} rel="noopener noreferrer"{{ end -}}
->{{ .Text | safeHTML }}</a>
+>{{ .Text }}</a>
 {{- /**/ -}}

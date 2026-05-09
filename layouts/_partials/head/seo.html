@@ -61,7 +61,10 @@
 {{- /* JSON-LD Article — only on single posts (IsPage + Kind page). */ -}}
 {{- if and .IsPage (eq .Kind "page") -}}
 {{- $authorName := site.Params.author | default (and site.Data.profile site.Data.profile.name) | default site.Title -}}
-{{- $authorURL := site.Params.profile.url | default (and site.Data.profile site.Data.profile.url) | default site.Home.Permalink -}}
+{{- $authorURL := "" -}}
+{{- with site.Params.profile -}}{{- $authorURL = .url -}}{{- end -}}
+{{- if not $authorURL -}}{{- with site.Data.profile -}}{{- $authorURL = .url -}}{{- end -}}{{- end -}}
+{{- if not $authorURL -}}{{- $authorURL = site.Home.Permalink -}}{{- end -}}
 {{- $keywords := slice -}}
 {{- range .GetTerms "tags" -}}{{- $keywords = $keywords | append .LinkTitle -}}{{- end -}}
 {{- $publisher := dict "@type" "Organization" "name" site.Title -}}

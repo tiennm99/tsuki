@@ -27,10 +27,10 @@
 
       <ul class="project-card-links">
         {{- with $project.repo }}
-        <li><a href="{{ . }}" rel="noopener">repo →</a></li>
+        <li><a href="{{ . | safeURL }}" rel="noopener noreferrer" target="_blank">repo →</a></li>
         {{- end }}
         {{- with $project.demo }}
-        <li><a href="{{ . }}" rel="noopener">demo →</a></li>
+        <li><a href="{{ . | safeURL }}" rel="noopener noreferrer" target="_blank">demo →</a></li>
         {{- end }}
       </ul>
     </li>

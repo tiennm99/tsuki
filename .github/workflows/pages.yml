@@ -45,12 +45,7 @@ jobs:
         run: hugo --gc --minify --baseURL "https://tiennm99.github.io/tsuki/"
 
       - name: Build Pagefind index
-        run: |
-          if find exampleSite/public -name "*.html" -type f | head -1 | grep -q .; then
-            npx pagefind --site exampleSite/public
-          else
-            echo "No HTML files found yet (layouts not implemented). Skipping Pagefind."
-          fi
+        run: npx pagefind --site exampleSite/public
 
       - name: Assert CSS bundle budget (≤ 4200 B gz)
         run: |
@@ -70,8 +65,8 @@ jobs:
         run: ./scripts/smoke-tests.sh exampleSite/public
 
       - name: htmltest (broken internal links + HTML5 validation)
-        # TODO before v0.2.0 tag: pin @master to a commit SHA (supply-chain hygiene).
-        uses: wjdp/htmltest-action@master
+        # Pinned to master SHA (2026-05-10) for supply-chain hygiene. Refresh periodically.
+        uses: wjdp/htmltest-action@31be84a95c860a331e0cf9a99f71e3eb39d2f86b
         with:
           config: .htmltest.yml
 

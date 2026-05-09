@@ -3,7 +3,7 @@
   {{- range site.Menus.main }}
     {{- $current := or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}
     <li>
-      <a href="{{ .URL }}"{{ if $current }} aria-current="page"{{ end }}>{{ .Name }}</a>
+      <a href="{{ .URL | relURL }}"{{ if $current }} aria-current="page"{{ end }}>{{ .Name }}</a>
     </li>
   {{- end }}
   </ul>

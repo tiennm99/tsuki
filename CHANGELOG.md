@@ -4,6 +4,27 @@ All notable changes to tsuki will be documented here. Format follows [Keep a Cha
 
 ## [Unreleased]
 
+## [0.2.1] — 2026-05-10
+
+Patch release. Closes 5 P1 correctness/security findings from the post-v0.2.0 review plus 2 CI hygiene items. No new features.
+
+### Security
+
+- **Render-link no longer trusts inline HTML in link text** — `layouts/_markup/render-link.html` dropped `| safeHTML` on `.Text`. With Goldmark `unsafe: true`, the prior pipeline allowed `[<img onerror=...>](url)` inner-text to execute. Side effect: italic/emphasis-in-link (`[*x*](url)`) now renders as plain text rather than `<em>`. Restore by overriding the render hook if needed. Self-XSS in single-author themes; consistency fix vs `render-image.html`.
+- **Project links sanitize URL + add `noreferrer`** — `layouts/_partials/home/projects.html` pipes `repo`/`demo` URLs through `safeURL` and emits `rel="noopener noreferrer" target="_blank"`. Closes inconsistency with the `render-link` policy and prevents referer leakage to project destinations.
+- **Comments gate tightened** — `layouts/_partials/comments.html` now requires `repo`, `repoId`, AND `categoryId` in addition to `enable`. Prevents broken Giscus iframes when partially configured.
+- **htmltest GitHub Action pinned to commit SHA** — `.github/workflows/pages.yml` no longer tracks `wjdp/htmltest-action@master`; pinned to `31be84a` for supply-chain hygiene.
+
+### Fixed
+
+- **`seo.html` `$authorURL` chain hardened** — refactored fragile `site.Params.profile.url | default ...` chain into nil-safe `with` blocks. Site builds no longer risk `nil.url` template error when consumers follow the documented `data/profile.yaml`-only configuration.
+- **Header navigation respects sub-path deploys** — `layouts/_partials/nav.html` pipes `Menu.URL` through `relURL`. Sites deploying under a sub-path (e.g., GitHub Pages `/repo/`) with `url:`-form menu entries now route correctly.
+- **CI Pagefind step simplified** — `.github/workflows/pages.yml` dropped the dead `if find ... | head -1 | grep -q .` guard. Layouts exist; the else branch never triggered.
+
+## [0.2.0] — 2026-05-09
+
+SEO baseline, accessibility polish, author UX, discovery, distribution prep, CI hardening. See [v0.2.0 tag](https://github.com/tiennm99/tsuki/releases/tag/v0.2.0) for highlights.
+
 ### Changed
 
 - **TOC gate consolidated** to `_partials/toc-enabled.html` — single source for the `params.toc.{enable,minWordCount}` + per-page `toc: false` predicate, called from `single.html` (TOC partial) and `_partials/footer.html` (toc-active.js loader). Was duplicated 6-line logic in two sites; now one partial. No behavior change.
