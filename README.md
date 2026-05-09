@@ -3,6 +3,7 @@
 [![build](https://github.com/tiennm99/tsuki/actions/workflows/pages.yml/badge.svg)](https://github.com/tiennm99/tsuki/actions/workflows/pages.yml)
 [![license](https://img.shields.io/github/license/tiennm99/tsuki)](LICENSE)
 [![Hugo](https://img.shields.io/badge/hugo-%E2%89%A50.146-ff4088?logo=hugo)](https://gohugo.io)
+[![CSS](https://img.shields.io/badge/CSS-%E2%89%A44KB%20gz-blue)](https://github.com/tiennm99/tsuki/actions/workflows/pages.yml)
 
 A Hugo blog + personal portfolio theme. The homepage *is* the portfolio — bio, featured projects, recent posts. Posts live at `/post/`. Vietnamese-first typography, View Transitions on navigation, Pagefind search, Giscus comments.
 
@@ -29,78 +30,26 @@ A Hugo blog + personal portfolio theme. The homepage *is* the portfolio — bio,
 
 ## Quick start
 
-### As a git submodule
-
 ```bash
 git submodule add https://github.com/tiennm99/tsuki.git themes/tsuki
+echo 'theme: tsuki' >> hugo.yaml
 ```
 
-Add to your site's `hugo.yaml`:
+Full installation guide (submodule, Hugo Module, Pagefind setup, required site config): [`docs/installation.md`](docs/installation.md).
 
-```yaml
-theme: tsuki
-```
-
-### As a Hugo Module
-
-```bash
-hugo mod init github.com/<you>/<your-site>
-hugo mod get github.com/tiennm99/tsuki
-```
-
-Then add to `hugo.yaml`:
-
-```yaml
-module:
-  imports:
-    - path: github.com/tiennm99/tsuki
-```
-
-## Configuration
-
-Add the required keys to your site's `hugo.yaml`:
-
-```yaml
-theme: tsuki
-languageCode: vi
-defaultContentLanguage: vi
-
-pagination:
-  pagerSize: 10
-  path: page
-
-taxonomies:
-  category: categories
-  tag: tags
-
-permalinks:
-  post: /:year/:month/:day/:contentbasename/
-
-markup:
-  goldmark:
-    renderer:
-      unsafe: true
-    parser:
-      autoHeadingIDType: github-ascii
-  tableOfContents:
-    startLevel: 2
-    endLevel: 4
-```
-
-Then drop `data/profile.yaml` and `data/projects.yaml` into your site (see [`docs/data-schemas.md`](docs/data-schemas.md)).
-
-Hugo doesn't deep-merge nested config from themes — settings above belong in your *site* `hugo.yaml`. The `exampleSite/hugo.yaml` is a complete working example.
+`exampleSite/hugo.yaml` is a complete working example.
 
 ## Documentation
 
+- [`docs/installation.md`](docs/installation.md) — submodule + Hugo Module + Pagefind setup
 - [`docs/config.md`](docs/config.md) — full params reference
 - [`docs/data-schemas.md`](docs/data-schemas.md) — `profile.yaml` + `projects.yaml`
-- [`docs/customization.md`](docs/customization.md) — override layouts, tokens, fonts
+- [`docs/customization.md`](docs/customization.md) — override layouts, tokens, fonts, callouts
 - [`docs/migrating-from-stack.md`](docs/migrating-from-stack.md) — for users coming from `hugo-theme-stack`
 
 ## Search and comments
 
-Search uses Pagefind, built in CI via `npx pagefind --site public` after Hugo. Pinned in `package.json`; bumps via Dependabot. No runtime dependency.
+Search uses Pagefind, built post-Hugo via `npx pagefind --site public`. tsuki pins Pagefind in its own `package.json` for submodule consumers; Hugo Module consumers install Pagefind in their own site (see [`docs/installation.md`](docs/installation.md)). No runtime dependency.
 
 Comments use Giscus. Generate config at [giscus.app](https://giscus.app) and add to `params.comments.giscus.*` to enable. Defaults to off.
 
