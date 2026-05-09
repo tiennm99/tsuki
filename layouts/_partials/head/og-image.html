@@ -1,0 +1,11 @@
+{{- /*
+  Resolves the OG/Twitter image URL for the current page.
+  Order: per-post `cover.image` → per-post `image` (legacy) → `params.og.fallbackImage` → `data/profile.yaml: avatar`.
+  Returns the bare site-relative path; caller applies `absURL`.
+*/ -}}
+{{- $img := "" -}}
+{{- with .Params.cover -}}{{- $img = .image -}}{{- end -}}
+{{- if not $img -}}{{- $img = .Params.image -}}{{- end -}}
+{{- if not $img -}}{{- $img = site.Params.og.fallbackImage -}}{{- end -}}
+{{- if not $img -}}{{- with site.Data.profile -}}{{- $img = .avatar -}}{{- end -}}{{- end -}}
+{{- $img -}}
