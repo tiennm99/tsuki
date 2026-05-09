@@ -29,6 +29,18 @@ markup:
     startLevel: 2
     endLevel: 4
 
+related:
+  threshold: 80
+  includeNewer: true
+  toLower: true
+  indices:
+    - name: tags
+      weight: 100
+    - name: categories
+      weight: 60
+    - name: date
+      weight: 10
+
 params:
   description: Example site for the tsuki Hugo theme.
 

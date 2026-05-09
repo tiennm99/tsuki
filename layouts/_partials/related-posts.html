@@ -1,0 +1,20 @@
+{{- /*
+  Related posts for single pages. Uses Hugo's built-in `Related` keyword index.
+  Requires `related:` config in site hugo.yaml — see docs/config.md.
+  Silently no-op when no relations are found.
+*/ -}}
+{{- $count := site.Params.relatedPostsCount | default 3 -}}
+{{- $related := slice -}}
+{{- if gt $count 0 -}}
+  {{- $related = first $count (site.RegularPages.Related .) -}}
+{{- end -}}
+{{- with $related -}}
+<aside class="related-posts" aria-labelledby="related-heading">
+  <h2 id="related-heading" class="related-heading">{{ i18n "relatedPosts" | default "Bài viết liên quan" }}</h2>
+  <ul class="related-list">
+    {{- range . }}
+    <li>{{ partial "post-card.html" . }}</li>
+    {{- end }}
+  </ul>
+</aside>
+{{- end -}}
