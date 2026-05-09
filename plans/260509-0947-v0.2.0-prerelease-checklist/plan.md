@@ -4,6 +4,7 @@ status: pending
 created: 2026-05-09
 target: v0.2.0 tag + Hugo theme gallery submission
 predecessor: plans/archive/260508-2305-tsuki-v0.2.0-roadmap/
+blocks: [260510-0232-tsuki-v0.2.1-patch, 260510-0144-tsuki-v0.3.0]
 ---
 
 # v0.2.0 prerelease checklist
