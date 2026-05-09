@@ -34,10 +34,12 @@ Field reference:
 | handle  | string | no       | reserved                                  |
 | tagline | string | no       | rendered as `<p>` under name              |
 | avatar  | string | no       | resolved with `relURL`; show `<img>` if set |
-| bio     | string | no       | markdown; `markdownify` filter applied    |
+| bio     | string | no       | markdown; `markdownify` filter applied — see security note below |
 | links   | array  | no       | empty list = no links section             |
 
 Built-in icons under `assets/icons/`: `github`, `mail`, `rss`, `search`. Add your own SVGs there with `currentColor` fill.
+
+> **Security note — `bio` rendering.** The theme requires `markup.goldmark.renderer.unsafe: true` (see [`docs/config.md`](config.md)) and pipes `bio` through `markdownify`. Any raw HTML in `bio` — including `<script>`, `<iframe>`, `onerror=` attributes — renders verbatim. Treat `data/profile.yaml` as **trusted-author input only**. Do not populate `bio` from a CMS, form, or any source you don't fully control. If you need to disable raw HTML site-wide, set `markup.goldmark.renderer.unsafe: false` in your `hugo.yaml` (you may lose footnotes and `<details>` blocks in posts that rely on them).
 
 ## `data/projects.yaml`
 

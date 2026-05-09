@@ -15,19 +15,24 @@
   </div>
 
   <footer class="post-footer">
-    {{- with .Params.tags }}
+    {{- with .GetTerms "tags" }}
     <ul class="post-tag-list">
       {{- range . }}
-      <li><a href="{{ printf "/tags/%s/" (urlize .) | relURL }}">#{{ . }}</a></li>
+      <li><a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a></li>
       {{- end }}
     </ul>
     {{- end }}
   </footer>
 </article>
 
-{{- if and (gt .WordCount 400) (ne .Params.toc false) }}
+{{- $tocCfg := site.Params.toc | default dict -}}
+{{- $tocEnabled := $tocCfg.enable | default true -}}
+{{- $tocMin := $tocCfg.minWordCount | default 400 -}}
+{{- if and $tocEnabled (gt .WordCount $tocMin) (ne .Params.toc false) }}
 {{ partial "toc.html" . }}
 {{- end }}
+
+{{ partial "related-posts.html" . }}
 
 {{ partial "comments.html" . }}
 {{ end }}

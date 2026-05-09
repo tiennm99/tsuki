@@ -1,7 +1,9 @@
 {{ define "body_class" }}search{{ end }}
 
 {{ define "head_extra" }}
+{{- if site.Params.search.enable | default true }}
 <link rel="stylesheet" href="{{ "/pagefind/pagefind-ui.css" | relURL }}">
+{{- end }}
 {{ end }}
 
 {{ define "main" }}
@@ -10,14 +12,19 @@
   {{- with .Description }}<p class="list-description">{{ . }}</p>{{ end }}
 </header>
 
+{{- if site.Params.search.enable | default true }}
 <div id="search" class="search-container" data-pagefind-ui></div>
 
 <noscript>
   <p class="search-noscript">{{ i18n "searchNoScript" | default "Tìm kiếm yêu cầu JavaScript." }}</p>
 </noscript>
+{{- else }}
+<p class="search-disabled">{{ i18n "searchDisabled" | default "Tìm kiếm hiện không khả dụng trên trang này." }}</p>
+{{- end }}
 {{ end }}
 
 {{ define "scripts" }}
+{{- if site.Params.search.enable | default true }}
 <script type="module">
   import { PagefindUI } from "{{ "/pagefind/pagefind-ui.js" | relURL }}";
   new PagefindUI({
@@ -40,4 +47,5 @@
     }
   });
 </script>
+{{- end }}
 {{ end }}

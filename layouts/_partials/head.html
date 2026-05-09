@@ -1,10 +1,9 @@
 {{- $title := cond .IsHome site.Title (printf "%s · %s" .Title site.Title) -}}
-{{- $description := .Description | default .Summary | default site.Params.description | default site.Title -}}
-{{- $ogImage := .Params.image | default site.Params.profile.avatar -}}
+{{- $description := .Description | default .Summary | default site.Params.description | default site.Title | plainify -}}
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="Hugo {{ hugo.Version }} + tsuki">
+<meta name="generator" content="tsuki">
 
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $description }}">
@@ -22,40 +21,21 @@
 })();
 </script>
 
-{{/* OpenGraph */}}
-<meta property="og:title" content="{{ $title }}">
-<meta property="og:description" content="{{ $description }}">
-<meta property="og:url" content="{{ .Permalink }}">
-<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
-<meta property="og:site_name" content="{{ site.Title }}">
-{{- with $ogImage }}
-<meta property="og:image" content="{{ . | absURL }}">
-{{- end }}
-{{- if and .IsPage .Date }}
-<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
-{{- with .Lastmod }}
-<meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">
-{{- end }}
-{{- end }}
-
-{{/* Twitter Card */}}
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ $title }}">
-<meta name="twitter:description" content="{{ $description }}">
-{{- with $ogImage }}
-<meta name="twitter:image" content="{{ . | absURL }}">
-{{- end }}
+{{/* SEO: OpenGraph + Twitter Cards + JSON-LD Article */}}
+{{ partial "head/seo.html" . }}
 
 {{/* RSS autodiscovery */}}
 {{- with .OutputFormats.Get "RSS" }}
 <link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .Permalink }}">
 {{- end }}
 
-{{/* Pagination prev/next for SEO — only on paginated kinds */}}
-{{- if or .IsHome (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") }}
+{{/* Pagination prev/next for SEO — only on paginated kinds with >1 page */}}
+{{- if or (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") }}
   {{- with .Paginator }}
-  {{- if .HasPrev }}<link rel="prev" href="{{ .Prev.URL }}">{{ end }}
-  {{- if .HasNext }}<link rel="next" href="{{ .Next.URL }}">{{ end }}
+    {{- if gt .TotalPages 1 }}
+    {{- if .HasPrev }}<link rel="prev" href="{{ .Prev.URL }}">{{ end }}
+    {{- if .HasNext }}<link rel="next" href="{{ .Next.URL }}">{{ end }}
+    {{- end }}
   {{- end }}
 {{- end }}
 
@@ -75,6 +55,7 @@
   (resources.Get "css/toc.css")
   (resources.Get "css/search.css")
   (resources.Get "css/comments.css")
+  (resources.Get "css/callouts.css")
   (resources.Get "css/view-transitions.css")
 -}}
 {{- $css := $cssFiles | resources.Concat "css/tsuki.bundle.css" | minify | fingerprint -}}

@@ -1,5 +1,6 @@
 {{- $count := site.Params.home.recentPostsCount | default 5 -}}
-{{- $posts := first $count (where (where site.RegularPages "Type" "post") "Draft" false) -}}
+{{- $all := where site.RegularPages "Type" "post" -}}
+{{- $posts := first $count $all -}}
 {{- with $posts -}}
 <section class="home-recent-posts" aria-labelledby="home-recent-heading">
   <h2 id="home-recent-heading" class="home-recent-heading">
@@ -12,7 +13,7 @@
     {{- end }}
   </ul>
 
-  {{- if gt (len (where (where site.RegularPages "Type" "post") "Draft" false)) $count }}
+  {{- if gt (len $all) $count }}
   <p class="home-recent-more">
     <a href="{{ "/post/" | relURL }}">{{ i18n "viewAll" | default "View all" }} →</a>
   </p>
