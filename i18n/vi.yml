@@ -1,6 +1,24 @@
 - id: readingTime
   translation: "{{ .Count }} phút đọc"
 
+- id: wordCount
+  translation: "{{ .Count }} từ"
+
+- id: calloutNote
+  translation: "Ghi chú"
+
+- id: calloutTip
+  translation: "Mẹo"
+
+- id: calloutImportant
+  translation: "Quan trọng"
+
+- id: calloutWarning
+  translation: "Cảnh báo"
+
+- id: calloutCaution
+  translation: "Thận trọng"
+
 - id: postedOn
   translation: "Đăng vào"
 
@@ -33,12 +51,6 @@
 
 - id: tableOfContents
   translation: "Mục lục"
-
-- id: previousPage
-  translation: "Trang trước"
-
-- id: nextPage
-  translation: "Trang tiếp"
 
 - id: prev
   translation: "Trước"
@@ -87,3 +99,30 @@
 
 - id: copyright
   translation: "© {{ .Year }} {{ .Author }}"
+
+- id: comments
+  translation: "Bình luận"
+
+- id: month
+  translation: "Tháng {{ .Number }}"
+
+- id: pageNotFound
+  translation: "Trang không tồn tại."
+
+- id: backHome
+  translation: "Về trang chủ"
+
+- id: searchSuggestion
+  translation: "Không có kết quả cho [SEARCH_TERM]. Thử các từ khoá: [DIFFERENT_TERMS]."
+
+- id: altSearch
+  translation: "Không có kết quả cho [SEARCH_TERM]. Đang hiển thị kết quả cho [DIFFERENT_TERM]."
+
+- id: searchDisabled
+  translation: "Tìm kiếm hiện không khả dụng trên trang này."
+
+- id: skipToContent
+  translation: "Đến nội dung chính"
+
+- id: relatedPosts
+  translation: "Bài viết liên quan"

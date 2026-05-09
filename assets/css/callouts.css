@@ -1,0 +1,34 @@
+/* tsuki: callouts (Markdown alert syntax: > [!note], > [!warning], etc.) */
+
+.callout {
+  margin-block: var(--tsuki-space-4);
+  padding: var(--tsuki-space-3) var(--tsuki-space-4);
+  border-inline-start: 3px solid var(--tsuki-callout, var(--tsuki-accent));
+  background: var(--tsuki-callout-bg, transparent);
+  border-radius: var(--tsuki-radius);
+  color: var(--tsuki-fg);
+  font-style: normal;
+}
+.callout :is(p:last-child) { margin-block-end: 0; }
+.callout-title {
+  font-weight: 600;
+  margin: 0 0 var(--tsuki-space-2);
+  color: var(--tsuki-callout, var(--tsuki-accent));
+  font-size: var(--tsuki-fs-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.callout-note      { --tsuki-callout: #2563eb; --tsuki-callout-bg: #2563eb14; }
+.callout-tip       { --tsuki-callout: #16a34a; --tsuki-callout-bg: #16a34a14; }
+.callout-important { --tsuki-callout: #7c3aed; --tsuki-callout-bg: #7c3aed14; }
+.callout-warning   { --tsuki-callout: #d97706; --tsuki-callout-bg: #d9770614; }
+.callout-caution   { --tsuki-callout: #dc2626; --tsuki-callout-bg: #dc262614; }
+
+:where([data-theme="dark"]) {
+  .callout-note      { --tsuki-callout: #6ea1ff; --tsuki-callout-bg: #6ea1ff1f; }
+  .callout-tip       { --tsuki-callout: #4ade80; --tsuki-callout-bg: #4ade801f; }
+  .callout-important { --tsuki-callout: #a78bfa; --tsuki-callout-bg: #a78bfa1f; }
+  .callout-warning   { --tsuki-callout: #fbbf24; --tsuki-callout-bg: #fbbf241f; }
+  .callout-caution   { --tsuki-callout: #f87171; --tsuki-callout-bg: #f871711f; }
+}

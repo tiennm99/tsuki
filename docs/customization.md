@@ -102,6 +102,61 @@ Set CSS variables inline via a frontmatter `style` you wire up yourself, or use 
 
 Then style `body.section-work { --tsuki-accent: #...; }` in your custom CSS.
 
+## Callouts (admonitions)
+
+Use Hugo's native Markdown alert syntax (Hugo 0.140+) — no shortcode needed:
+
+```markdown
+> [!note]
+> Useful side information.
+
+> [!tip]
+> Reader-friendly hint.
+
+> [!important]
+> Hard requirement.
+
+> [!warning]
+> Heads-up about a pitfall.
+
+> [!caution]
+> Risk of breakage.
+```
+
+Titles localize via `i18n/vi.yml` keys `calloutNote`, `calloutTip`, `calloutImportant`, `calloutWarning`, `calloutCaution`. Override per-callout with `> [!note] Custom title`.
+
+Plain `> blockquote` still renders as the regular muted blockquote — only `[!type]` triggers callout styling.
+
+**Override callout colors** in your custom CSS — each callout type exposes the `--tsuki-callout` and `--tsuki-callout-bg` tokens through its modifier class:
+
+```css
+/* your-site/assets/css/custom.css */
+.callout-note { --tsuki-callout: #ff5d8f; --tsuki-callout-bg: #ff5d8f1f; }
+```
+
+## Show word count
+
+Reading time is shown on every post by default. Add word count under it with:
+
+```yaml
+params:
+  showWordCount: true   # default false
+```
+
+The byline reads `5 phút đọc · 1024 từ` (translated via the `wordCount` i18n key).
+
+## Accessibility & SEO defaults
+
+The theme includes accessibility features that require no configuration:
+
+- **Skip-link** — first focusable element on every page; jumps to `<main id="main">` (WCAG 2.1 M3)
+- **Focus rings** — visible outline via `--tsuki-accent` on `:focus-visible` for keyboard navigation
+- **Lastmod byline** — shows "Cập nhật {date}" when modified date is ≥24h newer than publish date
+- **Lazy-load images** — all in-content images get `loading="lazy" decoding="async"` via render hook
+- **External link security** — all Markdown links to `http://` / `https://` / `//` get `rel="noopener noreferrer"` automatically
+
+All of these are transparent — no override hooks needed unless you want to customize the markup.
+
 ## Disable features
 
 Every interactive feature has a kill switch:
