@@ -52,6 +52,29 @@ jobs:
             echo "No HTML files found yet (layouts not implemented). Skipping Pagefind."
           fi
 
+      - name: Assert CSS bundle budget (≤ 4200 B gz)
+        run: |
+          css=$(find exampleSite/public -name 'tsuki.bundle.*.css' -print -quit)
+          if [ -z "$css" ]; then
+            echo "::error::Could not locate tsuki.bundle.*.css under exampleSite/public"
+            exit 1
+          fi
+          sz=$(gzip -9 -c "$css" | wc -c)
+          echo "tsuki bundle gz: ${sz} B (limit 4200)"
+          if [ "$sz" -gt 4200 ]; then
+            echo "::error::CSS bundle exceeds 4200 B gz budget (was ${sz} B)"
+            exit 1
+          fi
+
+      - name: Smoke tests (SEO + a11y + features regression guard)
+        run: ./scripts/smoke-tests.sh exampleSite/public
+
+      - name: htmltest (broken internal links + HTML5 validation)
+        # TODO before v0.2.0 tag: pin @master to a commit SHA (supply-chain hygiene).
+        uses: wjdp/htmltest-action@master
+        with:
+          config: .htmltest.yml
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:

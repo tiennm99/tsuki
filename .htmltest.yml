@@ -1,0 +1,10 @@
+DirectoryPath: exampleSite/public
+CheckExternal: false
+IgnoreDirectoryMissingTrailingSlash: true
+IgnoreInternalEmptyHash: true
+IgnoreEmptyHref: false
+EnforceHTML5: true
+IgnoreURLs:
+  - "^https://giscus.app"
+  - "^https://github.com/"
+  - "^https://gohugo.io"
