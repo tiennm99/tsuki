@@ -44,14 +44,18 @@ jobs:
         run: npm ci
 
       - name: Build site
+        # Build into public/tsuki so the on-disk layout mirrors the URL structure
+        # (`/tsuki/foo` href → exampleSite/public/tsuki/foo file). This lets
+        # htmltest resolve internal links without needing URL-rewriting (which
+        # htmltest does not support).
         working-directory: exampleSite
-        run: hugo --gc --minify --baseURL "https://tiennm99.github.io/tsuki/"
+        run: hugo --gc --minify --destination public/tsuki --baseURL "https://tiennm99.github.io/tsuki/"
 
       - name: Build Pagefind index
-        run: npx pagefind --site exampleSite/public
+        run: npx pagefind --site exampleSite/public/tsuki
 
       - name: Smoke tests (SEO + a11y + per-kind CSS budget + features regression guard)
-        run: ./scripts/smoke-tests.sh exampleSite/public
+        run: ./scripts/smoke-tests.sh exampleSite/public/tsuki
 
       - name: htmltest (broken internal links + HTML5 validation)
         # Pinned to master SHA (2026-05-10) for supply-chain hygiene. Refresh periodically.
@@ -60,11 +64,12 @@ jobs:
           config: .htmltest.yml
 
       - name: Upload artifact
-        # Only upload from the current Hugo version; the floor-version run is for compatibility check.
+        # Upload only the inner build (exampleSite/public/tsuki). Pages mounts the
+        # artifact root at /tsuki/, so the inner contents become the served site.
         if: matrix.hugo == '0.154.0'
         uses: actions/upload-pages-artifact@v5
         with:
-          path: exampleSite/public
+          path: exampleSite/public/tsuki
 
   deploy:
     needs: build

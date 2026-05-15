@@ -15,7 +15,7 @@
 
   {{- if gt (len $all) $count }}
   <p class="home-recent-more">
-    <a href="{{ "/post/" | relURL }}">{{ i18n "viewAll" | default "View all" }} →</a>
+    <a href="{{ "post/" | relLangURL }}">{{ i18n "viewAll" | default "View all" }} →</a>
   </p>
   {{- end }}
 </section>

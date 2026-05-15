@@ -19,7 +19,7 @@
   <ul class="home-hero-links">
     {{- range . }}
     <li>
-      <a href="{{ .url }}" rel="me noopener" aria-label="{{ .label | default .icon }}">
+      <a href="{{ strings.TrimPrefix "/" .url | relLangURL }}" rel="me noopener" aria-label="{{ .label | default .icon }}">
         {{- with .icon }}{{ partial "icon.html" . }}{{ end }}
         <span>{{ .label | default .icon }}</span>
       </a>

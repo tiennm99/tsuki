@@ -4,6 +4,6 @@
 <section class="error-404">
   <h1>404</h1>
   <p>{{ i18n "pageNotFound" | default "Trang không tồn tại." }}</p>
-  <p><a href="{{ "/" | relURL }}">{{ i18n "backHome" | default "Về trang chủ" }}</a></p>
+  <p><a href="{{ site.Home.RelPermalink }}">{{ i18n "backHome" | default "Về trang chủ" }}</a></p>
 </section>
 {{ end }}

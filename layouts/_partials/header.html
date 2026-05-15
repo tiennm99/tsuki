@@ -1,5 +1,5 @@
 <header class="site-header">
-  <a class="site-title" href="{{ "/" | relURL }}">
+  <a class="site-title" href="{{ site.Home.RelPermalink }}">
     {{- with site.Data.profile }}{{ .name | default site.Title }}{{ else }}{{ site.Title }}{{ end -}}
   </a>
   {{ partial "nav.html" . }}
