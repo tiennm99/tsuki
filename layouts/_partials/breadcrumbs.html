@@ -1,0 +1,34 @@
+{{- /*
+  Breadcrumbs trail + BreadcrumbList schema.org JSON-LD.
+  Gated by params.breadcrumbs.enable (default off for backwards compat).
+  Skipped on home; renders Home → Section → Page for posts, Home → Section for section listings.
+*/ -}}
+{{- if site.Params.breadcrumbs.enable -}}
+{{- if not .IsHome -}}
+{{- $home := site.Home -}}
+{{- $section := .CurrentSection -}}
+{{- $isSection := and $section (ne $section.RelPermalink $home.RelPermalink) (ne $section.RelPermalink .RelPermalink) -}}
+{{- $isLeaf := and (eq .Kind "page") $isSection -}}
+{{- $homeName := i18n "breadcrumbHome" | default "Home" -}}
+<nav class="breadcrumbs" aria-label="{{ i18n "breadcrumb" | default "Breadcrumb" }}">
+  <ol>
+    <li><a href="{{ $home.Permalink }}">{{ $homeName }}</a></li>
+    {{- if $isSection }}
+    <li><a href="{{ $section.Permalink }}">{{ $section.LinkTitle | default $section.Title }}</a></li>
+    {{- end }}
+    {{- if $isLeaf }}
+    <li aria-current="page">{{ .LinkTitle | default .Title }}</li>
+    {{- end }}
+  </ol>
+</nav>
+{{- $items := slice (dict "@type" "ListItem" "position" 1 "name" $homeName "item" $home.Permalink) -}}
+{{- if $isSection -}}
+  {{- $items = $items | append (dict "@type" "ListItem" "position" 2 "name" ($section.LinkTitle | default $section.Title) "item" $section.Permalink) -}}
+{{- end -}}
+{{- if $isLeaf -}}
+  {{- $items = $items | append (dict "@type" "ListItem" "position" 3 "name" (.LinkTitle | default .Title) "item" .Permalink) -}}
+{{- end -}}
+{{- $bc := dict "@context" "https://schema.org" "@type" "BreadcrumbList" "itemListElement" $items -}}
+<script type="application/ld+json">{{ $bc | jsonify | safeJS }}</script>
+{{- end -}}
+{{- end -}}

@@ -16,6 +16,15 @@ taxonomies:
 permalinks:
   post: /:year/:month/:day/:contentbasename/
 
+outputFormats:
+  LlmTxt:
+    mediaType: text/plain
+    baseName: llm
+    isPlainText: true
+
+outputs:
+  home: [HTML, RSS, LlmTxt]
+
 markup:
   goldmark:
     renderer:
@@ -45,6 +54,12 @@ params:
   description: Example site for the tsuki Hugo theme.
 
   search:
+    enable: true
+
+  breadcrumbs:
+    enable: true
+
+  prevNextNav:
     enable: true
 
   # Giscus comments — uncomment and fill in your repo IDs to enable.

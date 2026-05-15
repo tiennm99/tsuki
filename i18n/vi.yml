@@ -108,3 +108,24 @@
 
 - id: calloutCaution
   translation: "Thận trọng"
+
+- id: linkToSection
+  translation: "Liên kết đến mục"
+
+- id: breadcrumbHome
+  translation: "Trang chủ"
+
+- id: breadcrumb
+  translation: "Đường dẫn"
+
+- id: prevPost
+  translation: "Bài trước"
+
+- id: nextPost
+  translation: "Bài tiếp"
+
+- id: copyCode
+  translation: "Sao chép"
+
+- id: copiedCode
+  translation: "Đã sao chép"

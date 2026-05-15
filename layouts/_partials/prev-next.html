@@ -1,0 +1,27 @@
+{{- /*
+  Prev/next post navigation within the same section.
+  Gated by params.prevNextNav.enable (default true).
+  Silently skipped when neither a prev nor a next exists.
+*/ -}}
+{{- if ne (site.Params.prevNextNav.enable | default true) false -}}
+{{- $prev := .PrevInSection -}}
+{{- $next := .NextInSection -}}
+{{- if or $prev $next -}}
+<nav class="prev-next" aria-label="{{ i18n "relatedPosts" }}">
+  {{- if $prev }}
+  <a class="prev-next-prev" rel="prev" href="{{ $prev.Permalink }}">
+    <span class="prev-next-label">← {{ i18n "prevPost" | default "Previous post" }}</span>
+    <span class="prev-next-title">{{ $prev.LinkTitle | default $prev.Title }}</span>
+  </a>
+  {{- else }}
+  <span class="prev-next-spacer" aria-hidden="true"></span>
+  {{- end }}
+  {{- if $next }}
+  <a class="prev-next-next" rel="next" href="{{ $next.Permalink }}">
+    <span class="prev-next-label">{{ i18n "nextPost" | default "Next post" }} →</span>
+    <span class="prev-next-title">{{ $next.LinkTitle | default $next.Title }}</span>
+  </a>
+  {{- end }}
+</nav>
+{{- end -}}
+{{- end -}}

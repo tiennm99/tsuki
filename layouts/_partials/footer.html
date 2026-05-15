@@ -10,12 +10,12 @@
   </p>
 </footer>
 
-{{- $jsFiles := slice
-  (resources.Get "js/theme-toggle.js")
-  (resources.Get "js/code-copy.js")
--}}
-{{- $js := $jsFiles | resources.Concat "js/tsuki.bundle.js" | js.Build (dict "minify" true) | fingerprint -}}
-<script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- $themeToggle := resources.Get "js/theme-toggle.js" | js.Build (dict "minify" true) | fingerprint -}}
+<script type="module" src="{{ $themeToggle.RelPermalink }}" integrity="{{ $themeToggle.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- if eq .Kind "page" }}
+{{- $codeCopy := resources.Get "js/code-copy.js" | js.Build (dict "minify" true) | fingerprint -}}
+<script type="module" src="{{ $codeCopy.RelPermalink }}" integrity="{{ $codeCopy.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end }}
 {{- if partial "toc-enabled.html" . }}
 {{- $tocJs := resources.Get "js/toc-active.js" | js.Build (dict "minify" true) | fingerprint -}}
 <script type="module" src="{{ $tocJs.RelPermalink }}" integrity="{{ $tocJs.Data.Integrity }}" crossorigin="anonymous"></script>

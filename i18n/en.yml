@@ -1,0 +1,131 @@
+- id: readingTime
+  translation: "{{ .Count }} min read"
+
+- id: wordCount
+  translation: "{{ .Count }} words"
+
+- id: updatedOn
+  translation: "Updated"
+
+- id: search
+  translation: "Search"
+
+- id: searchPlaceholder
+  translation: "Find posts..."
+
+- id: searchNoScript
+  translation: "Search requires JavaScript."
+
+- id: searchDisabled
+  translation: "Search is currently unavailable on this page."
+
+- id: clearSearch
+  translation: "Clear"
+
+- id: loadMore
+  translation: "Load more"
+
+- id: filters
+  translation: "Filters"
+
+- id: zeroResults
+  translation: "No results for [SEARCH_TERM]"
+
+- id: oneResult
+  translation: "[COUNT] result for [SEARCH_TERM]"
+
+- id: manyResults
+  translation: "[COUNT] results for [SEARCH_TERM]"
+
+- id: searching
+  translation: "Searching [SEARCH_TERM]..."
+
+- id: searchSuggestion
+  translation: "No results for [SEARCH_TERM]. Try: [DIFFERENT_TERMS]."
+
+- id: altSearch
+  translation: "No results for [SEARCH_TERM]. Showing results for [DIFFERENT_TERM]."
+
+- id: recentPosts
+  translation: "Recent posts"
+
+- id: relatedPosts
+  translation: "Related posts"
+
+- id: featuredProjects
+  translation: "Featured projects"
+
+- id: viewAll
+  translation: "View all"
+
+- id: tableOfContents
+  translation: "Table of contents"
+
+- id: prev
+  translation: "Previous"
+
+- id: next
+  translation: "Next"
+
+- id: posts
+  translation: "posts"
+
+- id: archiveEmpty
+  translation: "No posts yet."
+
+- id: month
+  translation: "{{ .Number | printf \"Month %d\" }}"
+
+- id: comments
+  translation: "Comments"
+
+- id: toggleTheme
+  translation: "Toggle theme"
+
+- id: skipToContent
+  translation: "Skip to content"
+
+- id: poweredBy
+  translation: "Powered by"
+
+- id: pageNotFound
+  translation: "Page not found."
+
+- id: backHome
+  translation: "Back home"
+
+- id: calloutNote
+  translation: "Note"
+
+- id: calloutTip
+  translation: "Tip"
+
+- id: calloutImportant
+  translation: "Important"
+
+- id: calloutWarning
+  translation: "Warning"
+
+- id: calloutCaution
+  translation: "Caution"
+
+- id: linkToSection
+  translation: "Link to section"
+
+- id: breadcrumbHome
+  translation: "Home"
+
+- id: breadcrumb
+  translation: "Breadcrumb"
+
+- id: prevPost
+  translation: "Previous post"
+
+- id: nextPost
+  translation: "Next post"
+
+- id: copyCode
+  translation: "Copy"
+
+- id: copiedCode
+  translation: "Copied"

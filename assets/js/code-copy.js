@@ -1,6 +1,6 @@
-const COPY = "Sao chép";
-const COPIED = "Đã chép";
-const FAILED = "Lỗi";
+const dataset = document.documentElement.dataset;
+const COPY = dataset.copyCode || "Copy";
+const COPIED = dataset.copiedCode || "Copied";
 
 if (navigator.clipboard) {
   for (const pre of document.querySelectorAll("pre")) {
@@ -16,10 +16,14 @@ if (navigator.clipboard) {
       try {
         await navigator.clipboard.writeText(code.innerText);
         btn.textContent = COPIED;
+        btn.setAttribute("data-state", "copied");
       } catch {
-        btn.textContent = FAILED;
+        btn.textContent = COPY;
       }
-      setTimeout(() => { btn.textContent = COPY; }, 1500);
+      setTimeout(() => {
+        btn.textContent = COPY;
+        btn.removeAttribute("data-state");
+      }, 1500);
     });
   }
 }

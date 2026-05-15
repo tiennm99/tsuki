@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="{{ site.LanguageCode | default "vi" }}">
+<html lang="{{ site.Language.LanguageCode | default site.Language.Lang | default "en" }}"
+  data-copy-code="{{ i18n "copyCode" | default "Copy" }}"
+  data-copied-code="{{ i18n "copiedCode" | default "Copied" }}">
 <head>
   {{ partial "head.html" . }}
   {{ block "head_extra" . }}{{ end }}

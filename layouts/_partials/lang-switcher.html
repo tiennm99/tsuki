@@ -1,0 +1,30 @@
+{{- /*
+  Inline language switcher. Auto-hidden on single-language sites.
+  Lists every configured language; marks the active one with aria-current="page".
+  Falls back to the localised home for languages where the current page has no translation.
+*/ -}}
+{{- if hugo.IsMultilingual -}}
+{{- $currentLang := .Language.Lang -}}
+{{- $page := . -}}
+<ul class="lang-switcher" aria-label="Languages">
+  {{- range site.Languages -}}
+  {{- $lang := .Lang -}}
+  {{- /* Resolve the target URL: prefer the translated page; otherwise the language home */ -}}
+  {{- $href := "" -}}
+  {{- if eq $lang $currentLang -}}
+    {{- $href = $page.Permalink -}}
+  {{- else -}}
+    {{- range $page.AllTranslations -}}
+      {{- if eq .Language.Lang $lang -}}{{- $href = .Permalink -}}{{- end -}}
+    {{- end -}}
+    {{- if not $href -}}{{- $href = (printf "/%s/" $lang) | relLangURL -}}{{- end -}}
+  {{- end -}}
+  <li>
+    <a href="{{ $href }}" lang="{{ $lang }}"
+      {{- if eq $lang $currentLang }} aria-current="page"{{ end }}>
+      {{ .LanguageName | default (upper $lang) }}
+    </a>
+  </li>
+  {{- end -}}
+</ul>
+{{- end -}}

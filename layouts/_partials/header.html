@@ -4,10 +4,11 @@
   </a>
   {{ partial "nav.html" . }}
   <div class="site-header-actions">
+    {{ partial "lang-switcher.html" . }}
     {{- if site.Params.search.enable | default true }}
     {{ partial "search-button.html" . }}
     {{- end }}
-    <button type="button" class="theme-toggle" aria-label="{{ i18n "toggleTheme" | default "Toggle theme" }}" data-theme-toggle hidden>
+    <button type="button" class="theme-toggle" aria-label="{{ i18n "toggleTheme" | default "Toggle theme" }}" aria-pressed="false" data-theme-toggle hidden>
       <span aria-hidden="true">◐</span>
     </button>
   </div>

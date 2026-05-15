@@ -155,10 +155,12 @@
 }
 .pagination a,
 .pagination .pagination-current {
-  display: inline-block;
-  min-width: 2rem;
-  padding: var(--tsuki-space-1) var(--tsuki-space-3);
-  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding-inline: var(--tsuki-space-3);
   border-radius: var(--tsuki-radius);
 }
 .pagination .pagination-current {
@@ -167,8 +169,8 @@
   font-weight: 600;
 }
 .pagination .disabled {
-  color: var(--tsuki-fg-subtle);
-  opacity: 0.5;
+  color: var(--tsuki-fg-muted);
+  cursor: not-allowed;
 }
 
 /* code copy button */
