@@ -5,8 +5,13 @@ IgnoreInternalEmptyHash: true
 IgnoreEmptyHref: false
 EnforceHTML5: true
 # Strip the /tsuki/ baseURL prefix so links resolve against exampleSite/public/.
+# htmltest's URLSwap is a regex substring match (not anchored), so the leading
+# "^" used previously silently failed against the minified `href=/tsuki/...`
+# outputs in built HTML — every link reported missing. Quoted plain-prefix form
+# matches whatever position /tsuki/ appears in the href, which for our build is
+# always at the start of relative URLs.
 URLSwap:
-  ^/tsuki/: /
+  "/tsuki/": /
 IgnoreURLs:
   - "^https://giscus.app"
   - "^https://github.com/"

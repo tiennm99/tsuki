@@ -49,9 +49,8 @@
   {{- end }}
 {{- end }}
 
-{{/* Favicon */}}
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/favicon.ico" sizes="32x32">
+{{/* Favicon — SVG only; sites can override head.html to add an .ico fallback */}}
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
 
 {{/* Speculation Rules — Chromium prefetch hints; gated, off by default */}}
 {{- $prefetch := site.Params.prefetch -}}
