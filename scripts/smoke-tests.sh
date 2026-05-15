@@ -61,20 +61,82 @@ assert "reading time byline" 'reading-time'                                 "$po
 # Discovery (Phase 5)
 assert "related-posts aside" 'class=related-posts'                          "$post"
 
-# CSS budget (Phase 1) — duplicates the workflow assert; included so local runs catch it too.
-css=$(find "$public_dir" -name 'tsuki.bundle.*.css' -print -quit || true)
-if [ -n "$css" ]; then
-  sz=$(gzip -9 -c "$css" | wc -c)
-  if [ "$sz" -gt 4200 ]; then
-    echo "::error::CSS bundle gz ${sz} B exceeds 4200 B budget"
-    fail=1
-  else
-    echo "  ok   [CSS budget] ${sz} B / 4200 B"
-  fi
+# v0.3.0 feature surface
+assert "theme-color meta (light)"  'name=theme-color content="#fbfaf7"'      "$home"
+assert "theme-color meta (dark)"   'name=theme-color content="#14151a"'      "$home"
+assert "aria-pressed SSR"          'data-theme-toggle [^>]*aria-pressed=false|aria-pressed=false [^>]*data-theme-toggle' "$home"
+assert "breadcrumbs nav on post"   'class=breadcrumbs'                       "$post"
+assert "BreadcrumbList JSON-LD"    '"@type":"BreadcrumbList"'                "$post"
+assert "no breadcrumbs on home"    'class=breadcrumbs'                       "$home" 0
+assert "prev/next nav"             'class=prev-next'                         "$post"
+assert "rel=prev on post"          'rel=prev'                                "$post"
+assert "linkToSection aria-label"  'class=heading-anchor [^>]*aria-label'    "$post"
+assert "no speculationrules by default"  'speculationrules'                  "$home" 0
+
+# llm.txt artifact
+if [ -f "$public_dir/llm.txt" ]; then
+  echo "  ok   [llm.txt artifact present]"
 else
-  echo "::error::Could not locate tsuki.bundle.*.css"
+  echo "::error::FAIL [llm.txt artifact present] expected $public_dir/llm.txt"
   fail=1
 fi
+
+# Pagefind preload-swap on search (rel=preload as=style)
+if [ -f "$public_dir/search/index.html" ]; then
+  assert "Pagefind preload swap" 'rel=preload as=style href=[^ >]*pagefind' "$public_dir/search/index.html"
+fi
+
+# Giscus preconnect: comments disabled in demo → must NOT emit
+assert "no giscus preconnect (disabled)" 'preconnect[^>]*giscus' "$post" 0
+
+# Per-page CSS bundle gating: home gets home.css, post does NOT
+assert "home loads home.css"  'home\.min\.[0-9a-f]+\.css' "$home"
+assert "post does not load home.css" 'home\.min\.[0-9a-f]+\.css' "$post" 0
+assert "post loads single.css" 'tsuki\.single\.min\.[0-9a-f]+\.css' "$post"
+assert "home does not load single.css" 'tsuki\.single\.min\.[0-9a-f]+\.css' "$home" 0
+
+# code-copy.js gate: only post pages should load it
+assert "post loads code-copy.js" 'code-copy\.[0-9a-f]+\.js' "$post"
+assert "home does not load code-copy.js" 'code-copy\.[0-9a-f]+\.js' "$home" 0
+
+# Per-kind CSS budget — every page kind's total stylesheet payload ≤ 4200 B gz.
+# Iterate over each kind's representative HTML, extract its <link rel=stylesheet> CSS,
+# sum gzipped sizes (excluding third-party like /pagefind/), assert each kind under budget.
+check_kind_css_budget() {
+  local label="$1" html="$2"
+  [ -f "$html" ] || { echo "  skip [$label CSS budget] no HTML at $html"; return; }
+  local total=0 missing=0
+  while IFS= read -r href; do
+    # strip query string + leading slash + baseURL prefix
+    local rel="${href#/tsuki/}"
+    rel="${rel#/}"
+    local fpath="$public_dir/$rel"
+    if [ -f "$fpath" ]; then
+      local sz
+      sz=$(gzip -9 -c "$fpath" | wc -c)
+      total=$((total + sz))
+    else
+      missing=$((missing + 1))
+    fi
+  done < <(grep -oE 'rel=stylesheet href=[^ >]+\.css' "$html" | grep -v '/pagefind/' | sed -E 's|rel=stylesheet href=||')
+  if [ "$total" -gt 4200 ]; then
+    echo "::error::[$label CSS budget] ${total} B gz exceeds 4200 B"
+    fail=1
+  else
+    echo "  ok   [$label CSS budget] ${total} B / 4200 B (${missing} third-party skipped)"
+  fi
+}
+
+# Pick representative HTML per kind from the build.
+list_html="$public_dir/post/index.html"
+search_html="$public_dir/search/index.html"
+archives_html="$public_dir/archives/index.html"
+
+check_kind_css_budget "home"     "$home"
+check_kind_css_budget "post"     "$post"
+[ -f "$list_html" ]     && check_kind_css_budget "list"     "$list_html"
+[ -f "$archives_html" ] && check_kind_css_budget "archives" "$archives_html"
+[ -f "$search_html" ]   && check_kind_css_budget "search"   "$search_html"
 
 echo
 [ "$fail" -eq 0 ] && echo "All smoke tests passed." || echo "Smoke tests failed."

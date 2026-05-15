@@ -17,8 +17,11 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.154.0
+    strategy:
+      fail-fast: false
+      matrix:
+        # Floor (theme.toml min_version) + current pinned. Deploy artifact is uploaded only from the current version.
+        hugo: ["0.146.0", "0.154.0"]
     steps:
       - uses: actions/checkout@v6
         with:
@@ -28,7 +31,7 @@ jobs:
       - name: Setup Hugo (extended)
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: ${{ env.HUGO_VERSION }}
+          hugo-version: ${{ matrix.hugo }}
           extended: true
 
       - name: Setup Node
@@ -47,21 +50,7 @@ jobs:
       - name: Build Pagefind index
         run: npx pagefind --site exampleSite/public
 
-      - name: Assert CSS bundle budget (≤ 4200 B gz)
-        run: |
-          css=$(find exampleSite/public -name 'tsuki.bundle.*.css' -print -quit)
-          if [ -z "$css" ]; then
-            echo "::error::Could not locate tsuki.bundle.*.css under exampleSite/public"
-            exit 1
-          fi
-          sz=$(gzip -9 -c "$css" | wc -c)
-          echo "tsuki bundle gz: ${sz} B (limit 4200)"
-          if [ "$sz" -gt 4200 ]; then
-            echo "::error::CSS bundle exceeds 4200 B gz budget (was ${sz} B)"
-            exit 1
-          fi
-
-      - name: Smoke tests (SEO + a11y + features regression guard)
+      - name: Smoke tests (SEO + a11y + per-kind CSS budget + features regression guard)
         run: ./scripts/smoke-tests.sh exampleSite/public
 
       - name: htmltest (broken internal links + HTML5 validation)
@@ -71,6 +60,8 @@ jobs:
           config: .htmltest.yml
 
       - name: Upload artifact
+        # Only upload from the current Hugo version; the floor-version run is for compatibility check.
+        if: matrix.hugo == '0.154.0'
         uses: actions/upload-pages-artifact@v5
         with:
           path: exampleSite/public
