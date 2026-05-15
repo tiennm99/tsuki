@@ -2,11 +2,52 @@
 
 All notable changes to tsuki will be documented here. Format follows [Keep a Changelog](https://keepachangelog.com/), versioning follows [SemVer](https://semver.org/).
 
-## [Unreleased]
+## [Unreleased] — v0.3.0
+
+Feature-parity round + Lighthouse ≥80 baseline. Six phases per `plans/260510-0144-tsuki-v0.3.0/`. Net: tsuki now ships breadcrumbs, prev/next post navigation, language switcher UI, llm.txt, English i18n bundle, and per-page-kind CSS bundles, while maintaining the ≤4 KB gz / page-kind / ≤1 KB gz JS hard caps.
+
+### Added
+
+- **Per-page-kind CSS bundles** — `head.html` now assembles separate bundles per page kind. `core.css` (tokens + reset + typography + layout + components + view-transitions) loads everywhere; `home.css` only on home; `single.css` (toc + callouts + comments + single-extras) only on posts; `archive.css` only under `/archives/`; `search.css` only on `/search/`. Frees ~1 KB gz from non-post pages and unlocks Phase 3 feature growth without breaching budget.
+- **`code-copy.js` gated to post pages** — separate `<script type=module>` emit on `eq .Kind "page"`; home/list/search no longer load the dead 0.5 KB gz.
+- **Pagefind UI CSS preload-swap** — `/search/` now `<link rel="preload" as="style" ... onload>` the third-party stylesheet with `<noscript>` fallback. No longer render-blocking.
+- **Giscus preconnect** — `<link rel="preconnect" href="https://giscus.app">` emitted only on post pages with comments fully configured. Shaves third-party DNS+TLS handshake.
+- **Breadcrumbs partial** (`_partials/breadcrumbs.html`) — opt-in via `params.breadcrumbs.enable`. Renders Home › Section › Page trail above the post header and emits matching `BreadcrumbList` JSON-LD for SEO. Off by default; demo enables it.
+- **Prev/next post navigation** (`_partials/prev-next.html`) — opt-in via `params.prevNextNav.enable` (default true). Two-card layout below the post, `rel="prev"` / `rel="next"` for SEO. Renders single-cell when only one neighbour exists.
+- **Language switcher UI** (`_partials/lang-switcher.html`) — auto-emits when `hugo.IsMultilingual` is true; renders nothing on single-language sites. Marks active language with `aria-current="page"`.
+- **`hreflang` alternate links** — `<link rel="alternate" hreflang="...">` per `.AllTranslations` + `x-default`, gated on `hugo.IsMultilingual`.
+- **`i18n/en.yml`** — full English starter (~50 keys) mirroring `vi.yml`. Theme builds with `defaultContentLanguage: en` without missing-key fallbacks.
+- **`linkToSection` i18n key** + **`breadcrumb`, `breadcrumbHome`, `prevPost`, `nextPost`, `copyCode`, `copiedCode`** keys added to both bundles.
+- **`<meta name="theme-color">`** — two variants for light/dark `(prefers-color-scheme)`. Mobile browsers theme their chrome to match the site.
+- **`aria-pressed` SSR** on theme-toggle — rendered in HTML before paint so axe/Lighthouse never see a missing-state toggle button.
+- **`<details>` styling** in `single-extras.css` — markdown collapse blocks now render with border + padding + dark-mode awareness.
+- **`/llm.txt` output format** — custom Hugo output format on the home; emits a plain-text summary of site + bio + recent posts + projects per [llmstxt.org](https://llmstxt.org). Builds automatically; consumers can override `layouts/index.llmtxt.txt`.
+- **Speculation Rules opt-in** — `<script type="speculationrules">` emitted when `params.prefetch.enable: true`. Default rules prefetch internal links with `moderate` eagerness, excluding `/search/*`. Override with `params.prefetch.rules` raw JSON.
+- **`docs/accessibility.md`** — WCAG 2.2 AA conformance statement, known limitations, Lighthouse measurement instructions, baseline table (TBD entries to fill on next production deploy).
+- **README a11y badge** linking to `docs/accessibility.md`.
+- **Hugo CI matrix** — `pages.yml` builds + smoke-tests on Hugo 0.146 (theme.toml floor) and 0.154 (pinned current). Deploy uploads only the current version.
+- **15+ new smoke-test assertions** in `scripts/smoke-tests.sh` covering: theme-color meta, aria-pressed SSR, breadcrumbs + BreadcrumbList JSON-LD, prev/next nav with rel attrs, heading-anchor aria-label i18n, llm.txt presence, Speculation Rules absence by default, Pagefind preload-swap, Giscus-preconnect gating, per-page-kind CSS bundle routing, code-copy.js gating. Total checks: 32 (was 11).
+
+### Changed
+
+- **`--tsuki-fg-subtle`** light-mode darkened from `#888` to `#6b6b6b` for WCAG AA contrast (`#888` was 3.54:1 against `#fbfaf7`; fails 4.5:1 body-text threshold). Affects post-card date, pagination disabled state, heading anchor — they now render slightly darker. Dark-mode `#777` unchanged (passes at 4.7:1). Visual diff is subtle; consumers theming the token are unaffected.
+- **Pagination disabled state** uses `--tsuki-fg-muted` + `cursor: not-allowed`. Dropped the `opacity: 0.5` compound that double-dimmed text below contrast.
+- **Tap targets enlarged** — header theme-toggle + search-button bumped from `2rem` (32px) to `2.5rem` (40px); pagination links use `min-width: 2.75rem; min-height: 2.75rem` (44px); footer links get `padding-block`. Closer to Lighthouse's 48×48 audit target. Header buttons may still trip the strict 48px check; documented in `docs/accessibility.md`.
+- **`<html lang>`** fallback chain — was hard-coded `"vi"`; now `site.Language.LanguageCode | default site.Language.Lang | default "en"`. English-default sites no longer paint `lang="vi"`.
+- **`render-heading.html` `aria-label`** moved from hard-coded vi to `i18n "linkToSection"` (defaults to "Link to section" when key missing).
+- **`code-copy.js`** reads `data-copy-code` / `data-copied-code` from `<html>` (set by `baseof.html` via `i18n` resolution). Adds `data-state="copied"` for CSS styling polish.
+- **`scripts/smoke-tests.sh`** asserts per-kind CSS budget (each page kind ≤ 4200 B gz) instead of aggregate. CI workflow drops the now-redundant standalone budget step.
 
 ### Fixed
 
 - **CI htmltest URLSwap** — `.htmltest.yml` now strips the `/tsuki/` baseURL prefix so internal-link checks resolve against `exampleSite/public/`. Was failing on every CI run since v0.2.0; deploys did not propagate until this fix. No theme-side change.
+
+### Deferred to v0.3.1
+
+- Narrow-viewport TOC `<details>` collapse (UX ambiguity on wide-viewport summary toggle + CSS budget pressure)
+- Synthetic test posts for branch coverage (`lastmod-test.md`, `no-tags-test.md`)
+- Optional Lighthouse-CI workflow (manual measurement for now via `docs/accessibility.md`)
+- Default cover-image renderer pipeline (`images.Resize` + srcset/AVIF) — see `docs/customization.md` for override snippet; built-in support targeted for v0.4.0
 
 ## [0.2.1] — 2026-05-10
 

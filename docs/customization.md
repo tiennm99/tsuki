@@ -175,3 +175,51 @@ Per-post:
 toc: false
 comments: false
 ```
+
+## Cover images
+
+`cover.image` is currently used for OG / Twitter card metadata only — the theme does **not** render a hero cover above the post title by default. This avoids LCP regressions on themes with un-optimised consumer-supplied images.
+
+To render a cover, override `layouts/single.html` in your site:
+
+```hugo
+{{ define "main" }}
+{{ partial "breadcrumbs.html" . }}
+
+<article class="post">
+  <header class="post-header">
+    {{- with .Params.cover.image }}
+    {{- /* Use Hugo image processing for a responsive, hashed asset */ -}}
+    {{- $img := resources.Get . | images.Resize "1200x" -}}
+    <img class="post-cover"
+         src="{{ $img.RelPermalink }}"
+         width="{{ $img.Width }}" height="{{ $img.Height }}"
+         alt="" fetchpriority="high" decoding="async">
+    {{- end }}
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{ partial "meta.html" . }}
+  </header>
+  <div class="post-content" data-pagefind-body>{{ .Content }}</div>
+</article>
+
+{{ partial "prev-next.html" . }}
+{{ partial "related-posts.html" . }}
+{{ partial "comments.html" . }}
+{{ end }}
+```
+
+A built-in cover pipeline with `srcset`/AVIF is planned for **v0.4.0**.
+
+## Breadcrumbs, prev/next, language switcher
+
+These ship in v0.3.0 as opt-in features.
+
+```yaml
+params:
+  breadcrumbs:
+    enable: true            # Home › Section › Page trail + BreadcrumbList JSON-LD
+  prevNextNav:
+    enable: true            # in-section prev/next post nav below content
+```
+
+The language switcher partial auto-emits when `hugo.IsMultilingual` is true; no config flag needed.

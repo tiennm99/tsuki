@@ -1,10 +1,11 @@
 ---
 phase: 2
 title: "Theme-budget rebase — per-kind CSS + JS gate + default cleanup"
-status: pending
+status: completed
 priority: P1
 effort: "1d"
 dependencies: [1]
+completed_date: 2026-05-15
 ---
 
 # Phase 2: Theme-budget rebase
@@ -105,5 +106,53 @@ Each bundle: `Concat | minify | fingerprint | resources.Get`, emit one `<link re
 
 ## Next Steps
 
-- Phase 3 depends on Phase 2's bundle layout (details CSS slots into single.css)
+- Phase 3 depends on Phase 2's bundle layout (details CSS + breadcrumbs CSS + prev/next CSS slot into single.css)
 - Phase 5 depends on Phase 2's freed budget
+
+## Added in audit pass (2026-05-15)
+
+Cheap perf wins folded in here because they touch the same `head.html` / network-emit surface as the budget rebase. Both are <10 lines each.
+
+### A2.1 — Pagefind UI CSS preload-swap (Lighthouse P0-2)
+
+**Source:** code-reviewer-260515-lighthouse-80-baseline-audit.md → P0-2.
+
+**Problem:** Pagefind UI ships its own stylesheet via `<link rel="stylesheet">` which is render-blocking on the search page.
+
+**Fix:** ~3 lines in `layouts/search/list.html`. Use preload-swap pattern:
+
+```html
+<link rel="preload" as="style" href="{{ ... pagefind-ui.css ... }}" onload="this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ ... pagefind-ui.css ... }}"></noscript>
+```
+
+**Why this phase:** Phase 2 owns CSS budget + load-order discipline; the Pagefind swap is the same discipline applied to the third-party stylesheet on the one page it lands.
+
+**Files modified:**
+- `layouts/search/list.html` — swap link tag
+
+**Success criteria additions:**
+- [ ] Pagefind UI CSS uses preload-swap pattern on `/search/`
+- [ ] `<noscript>` fallback present (no-JS users still get styled search)
+
+### A2.2 — Conditional preconnect to giscus.app (Lighthouse P1-5)
+
+**Source:** code-reviewer-260515-lighthouse-80-baseline-audit.md → P1-5.
+
+**Problem:** Giscus iframe lazy-loads from `giscus.app` post-paint; no preconnect means TLS+DNS happen on demand, hurting INP on comment-enabled posts.
+
+**Fix:** In `layouts/_partials/head.html`, emit `<link rel="preconnect" href="https://giscus.app">` only when (a) page is a post (`.Kind == "page"`), (b) `params.comments.giscus.enable: true`, and (c) all required Giscus params present (matches Phase 1 P1-5 strict gate).
+
+**Why this phase:** Same gate structure as P1-5 in Phase 1; same `<head>` emit logic as the per-kind CSS bundle in this phase. Single template branch.
+
+**Files modified:**
+- `layouts/_partials/head.html` — add conditional preconnect block
+
+**Success criteria additions:**
+- [ ] preconnect emits only on post pages with Giscus fully configured
+- [ ] absent from home/list/search HTML even when Giscus configured
+- [ ] absent from post pages when Giscus disabled or partially configured
+
+### Effort delta
+
++0.2d (small additions, but verification on demo + smoke test adjustments). Phase 2 still fits in ~1d if Phase 1 work is clean. **Code comments / smoke-test names must not reference "P0-2" or "P1-5"** — describe the behavior ("Pagefind CSS preload swap"; "Giscus preconnect when comments enabled") per project rules.

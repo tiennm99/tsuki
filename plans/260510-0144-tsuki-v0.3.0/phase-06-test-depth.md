@@ -1,10 +1,12 @@
 ---
 phase: 6
 title: "Smoke-test expansion + Hugo CI matrix"
-status: pending
+status: completed
 priority: P1
 effort: "0.5d"
 dependencies: [1, 2, 3, 4, 5]
+completed_date: 2026-05-15
+notes: "Synthetic test posts (lastmod-test, no-tags-test) and Lighthouse-CI workflow deferred to v0.3.1 (optional)."
 ---
 
 # Phase 6: Smoke-test expansion + Hugo CI matrix
@@ -132,3 +134,72 @@ None — test/CI only.
 - v0.3.0 tag candidate post-Phase-6
 - Subsequent: gohugoThemes registry CI green check (carry from v0.2.0 prereq)
 - Then: tag, release notes, gallery PR
+
+## Added in audit pass (2026-05-15)
+
+New smoke assertions lock in the Lighthouse-audit-driven surface (Phases 2–4 additions) so regressions surface in CI rather than in the next Lighthouse run.
+
+### A6.1 — Additional smoke assertions
+
+**Source:** code-reviewer-260515-lighthouse-80-baseline-audit.md → Phase 6 recommendations.
+
+Add to `scripts/smoke-tests.sh`:
+
+```bash
+assert_aria_pressed_ssr()         # post HTML contains aria-pressed on theme-toggle button
+assert_giscus_preconnect()        # post page with comments enabled has <link rel="preconnect" href="https://giscus.app">
+assert_no_giscus_preconnect_home() # home HTML lacks the giscus preconnect
+assert_tap_target_css()           # CSS bundle contains min-height: 2.75rem (or ≥48px equiv) on pagination/toggle classes
+assert_pagefind_preload_swap()    # search page HTML contains rel="preload" as="style" + onload swap for pagefind-ui.css
+assert_theme_color_meta()         # head HTML contains two <meta name="theme-color"> tags with media= attrs
+assert_html_lang_not_hardcoded()  # `<html lang="vi">` only when site lang is vi; test demo build with `defaultContentLanguage: en` produces `<html lang="en">`
+assert_breadcrumbs_jsonld()       # post HTML (when breadcrumbs enabled in demo) contains valid BreadcrumbList JSON-LD (jq parse)
+assert_prev_next_rel()            # post HTML contains rel="prev" and/or rel="next" anchors
+assert_lang_switcher_gated()      # single-language demo site: no lang switcher in header; multilingual: present
+assert_hreflang_emit()            # head HTML on multilingual build contains rel="alternate" hreflang
+```
+
+**Total additions:** ~10 new assertions on top of the prior 10 in this phase, bringing total to ~30 smoke checks (was 11 baseline + 10 prior phase additions + 10 audit-pass additions).
+
+### A6.2 — Optional: Lighthouse-CI 4 runs on tag
+
+**Source:** code-reviewer-260515 → flagged "nice-to-have given CI cost".
+
+Add a GitHub Action workflow `.github/workflows/lighthouse.yml` triggered on `tag` push. Runs `treosh/lighthouse-ci-action` against 4 URLs (home, sample post, sample list, /search/). Fails the tag publish if any category drops below threshold:
+- Performance ≥80
+- Accessibility ≥95
+- Best Practices ≥80
+- SEO ≥80
+
+**Defer-or-ship decision:** add to Phase 6 but mark `optional: true`. Cost is ~3 min CI per tag (cheap on a low-tag-frequency theme repo). Recommendation: ship; the lock-in value of a CI gate on Lighthouse is high relative to the cost.
+
+**If shipped:**
+- Create: `.github/workflows/lighthouse.yml`
+- Modify: `docs/accessibility.md` — note the CI gate
+
+**If deferred to v0.3.1:**
+- Add note to plan.md unresolved Q14 outcome
+- Phase 6 stays as-is
+
+### Files modified (cumulative for audit pass)
+
+- Modify: `scripts/smoke-tests.sh` (~10 additional assertions, ~70 more lines)
+- Optional: Create `.github/workflows/lighthouse.yml`
+- Modify: `CHANGELOG.md` — note CI smoke expansion
+
+### Success criteria additions
+
+- [ ] ~30 total smoke assertions, all pass on demo build
+- [ ] aria-pressed assertion catches regression of theme-toggle SSR
+- [ ] giscus preconnect assertion fires on/off correctly per page kind + config
+- [ ] tap-target CSS assertion catches regression on pagination/toggle
+- [ ] Pagefind preload-swap pattern detected on `/search/`
+- [ ] theme-color meta tag count = 2
+- [ ] hreflang/lang-switcher gating verified on multilingual demo
+- [ ] (Optional) Lighthouse-CI workflow fails if any score drops below threshold
+
+### Implementer notes
+
+- Per project rules: smoke-test function names must describe behavior, NOT cite plan/audit labels. E.g., use `assert_aria_pressed_ssr` (good) NOT `assert_P0_4_aria_pressed` (bad). Same rule for shell variables, comments, commit messages, workflow names. Plan codes (P0-X, A6.X) stay in this document only.
+- Multilingual smoke assertions need a temp demo branch with a second language file populated; or a `--config exampleSite/hugo.multilang.yaml` fixture. Keep simple: a single fixture file that adds `en` as a secondary language for assertion runs, gated behind a flag in `scripts/smoke-tests.sh`.
+- If Lighthouse-CI workflow is shipped: pin action SHA per project security rule (no `@v10` floating tag).

@@ -4,6 +4,7 @@
 [![license](https://img.shields.io/github/license/tiennm99/tsuki)](LICENSE)
 [![Hugo](https://img.shields.io/badge/hugo-%E2%89%A50.146-ff4088?logo=hugo)](https://gohugo.io)
 [![CSS](https://img.shields.io/badge/CSS-%E2%89%A44KB%20gz-blue)](https://github.com/tiennm99/tsuki/actions/workflows/pages.yml)
+[![a11y](https://img.shields.io/badge/a11y-WCAG%202.2%20AA-success)](docs/accessibility.md)
 
 A Hugo blog + personal portfolio theme. The homepage *is* the portfolio — bio, featured projects, recent posts. Posts live at `/post/`. Vietnamese-first typography, View Transitions on navigation, Pagefind search, Giscus comments.
 

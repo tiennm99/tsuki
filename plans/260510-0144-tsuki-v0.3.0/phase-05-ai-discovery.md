@@ -1,10 +1,11 @@
 ---
 phase: 5
 title: "AI/discovery — llm.txt + Speculation Rules"
-status: pending
+status: completed
 priority: P2
 effort: "0.5d"
 dependencies: [2]
+completed_date: 2026-05-15
 ---
 
 # Phase 5: AI/discovery
@@ -111,3 +112,15 @@ Two additive 2026-platform features: (1) auto-generated `/llm.txt` artifact in e
 ## Next Steps
 
 - Phase 6 smoke tests assert both features behave per gate
+
+## Added in audit pass (2026-05-15)
+
+No new sub-tasks land here. Decision recorded:
+
+### A5.1 — Language switcher UI placement: Phase 3, NOT Phase 5
+
+**Source:** researcher-260515-tsuki-vs-stack-papermod-feature-gap.md → Tier B item #7 (placement question).
+
+**Decision:** Language switcher lands in Phase 3 (Author UX). Rationale: it's a UX surface, not an AI-discovery / platform feature. Phase 5 stays scoped to llm.txt + Speculation Rules (machine-readable surfaces). Pairing the switcher with en.yml completion in Phase 3 is also cheaper — same i18n keys, same header partial pass.
+
+No file edits in Phase 5 from this decision. See Phase 3 section A3.4 for the switcher implementation.
